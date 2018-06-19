@@ -12,8 +12,8 @@
   "dependencies": {
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
-    "vant": "^1.1.7",
-    "vant-css": "^1.1.7",
+    "vant": "^1.1.8",
+    "vant-css": "^1.1.8",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1"
   },

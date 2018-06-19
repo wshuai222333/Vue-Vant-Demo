@@ -31,8 +31,9 @@
                             <span>减万5</span>
                         </van-col>
                     </van-row>
-                    <van-button bottom-action class="card-btn">确认购买</van-button>
+                   
                 </div>
+                 <van-button bottom-action class="card-btn">确认购买</van-button>
             </van-panel>
 
         </van-tab>
@@ -48,7 +49,8 @@ export default {
     return {
       active: 2
     };
-  }
+  },
+  
 };
 </script>
 
@@ -98,9 +100,7 @@ export default {
 }
 .card-btn {
   font-size: 20px;
-  width: 91%;
-  margin: 15px;
-  height: 45px;
+  background-color: #38f;
 }
 </style>
 

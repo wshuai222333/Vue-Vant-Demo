@@ -7,17 +7,21 @@
         <van-cell-group class="home-van-cell-group" :border="border">
             <van-cell :border="border">
                 <van-row>
-                    <van-col class="home-van-cell-group-cell-item" span="3">
-                        <img src="../assets/images/推荐.png" />
-                    </van-col>
-                    <router-link to="Money">
+                    <router-link to="Recommend">
+                        <van-col class="home-van-cell-group-cell-item" span="3">
+                            <img src="../assets/images/推荐.png" />
+                        </van-col>
+                    </router-link>
+                    <router-link to="Collection">
                         <van-col class="home-van-cell-group-cell-item" offset="2" span="14" to="Money">
                             <img src="../assets/images/收款.png" />
                         </van-col>
                     </router-link>
+                    <router-link to="Member">
                     <van-col class="home-van-cell-group-cell-item" span="3">
                         <img src="../assets/images/优惠.png" />
                     </van-col>
+                     </router-link>
                 </van-row>
                 <van-row>
                     <van-col class="home-van-cell-group-cell-item" offset="1" span="3">
@@ -27,7 +31,7 @@
                         <span>收款</span>
                     </van-col>
                     <van-col class="home-van-cell-group-cell-item" offset="1" span="3">
-                        <span>优惠</span>
+                        <span>会员</span>
                     </van-col>
                 </van-row>
 
