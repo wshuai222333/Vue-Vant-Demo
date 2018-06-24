@@ -10,6 +10,7 @@ import GoodsDetail from '@/components/GoodsDetail';
 import Cart from '@/components/Cart';
 import Collection from '@/components/Collection';
 import Recommend from '@/components/Recommend';
+import Login from '@/components/Login';
 
 Vue.use(Router);
 
@@ -64,6 +65,11 @@ const routers = [{
         path: "/collection",
         name: "collection",
         component: Collection
+    },
+    {
+        path: "/login",
+        name: "login",
+        component: Login
     }
 ];
 
