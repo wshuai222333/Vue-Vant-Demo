@@ -82,7 +82,7 @@ export default {
         draw_fee: "1.00",
         check_value: "",
 
-        ret_url: "http://www.baidu.com",
+        ret_url: "http://101.201.75.82:8080/PayBack",
         bg_ret_url: "http://www.baidu.com",
         mer_priv: "",
         extension: ""

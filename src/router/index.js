@@ -12,6 +12,7 @@ import Collection from '@/components/Collection';
 import Recommend from '@/components/Recommend';
 import Login from '@/components/Login';
 import Submit from '@/components/Submit';
+import PayBack from '@/components/PayBack';
 
 Vue.use(Router);
 
@@ -81,6 +82,11 @@ const routers = [{
         path: "/submit",
         name: "submit",
         component: Submit
+    },
+    {
+        path: "/payBack",
+        name: "payBack",
+        component: PayBack
     }
 ];
 
