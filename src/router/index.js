@@ -11,6 +11,7 @@ import Cart from '@/components/Cart';
 import Collection from '@/components/Collection';
 import Recommend from '@/components/Recommend';
 import Login from '@/components/Login';
+import Submit from '@/components/Submit';
 
 Vue.use(Router);
 
@@ -70,6 +71,16 @@ const routers = [{
         path: "/login",
         name: "login",
         component: Login
+    },
+    {
+        path: "/collection",
+        name: "collection",
+        component: Submit
+    },
+    {
+        path: "/submit",
+        name: "submit",
+        component: Submit
     }
 ];
 
