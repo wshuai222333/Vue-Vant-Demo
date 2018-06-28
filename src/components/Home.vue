@@ -1,5 +1,6 @@
 <template>
     <div>
+        <van-search />
         <van-swipe :autoplay="3000">
             <van-swipe-item><img class="home-van-swipe-img" src="https://img.yzcdn.cn/public_files/2017/09/05/3bd347e44233a868c99cf0fe560232be.jpg" /></van-swipe-item>
             <van-swipe-item><img class="home-van-swipe-img" src="https://img.yzcdn.cn/public_files/2017/09/05/c0dab461920687911536621b345a0bc9.jpg" /></van-swipe-item>

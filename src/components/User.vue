@@ -7,9 +7,9 @@
           <van-row> -->
       <!-- <van-col offset="12" span="24"> -->
       <div class="user-background">
-        <img class="user-head" src="../assets/images/timg.jpg" alt="">
+        <img class="user-head" src="../assets/images/头像.png" alt="">
         <div class="name-span">
-        <span >微信昵称</span>
+          <span>用户名</span>
         </div>
       </div>
 
@@ -33,14 +33,15 @@
       </van-col>
     </van-row> -->
 
-    <!-- <van-cell-group class="user-group">
-      <van-cell icon="records" title="全部订单" is-link />
-    </van-cell-group> -->
+    <van-cell-group class="user-group">
+      <van-cell icon="records" title="我的交易" is-link to="Trade" />
+    </van-cell-group>
 
     <van-cell-group>
-      <van-cell icon="gold-coin" title="收款明细" is-link />
-      <van-cell icon="exchange" title="我的优惠" is-link />
-      <van-cell icon="gift" title="我的推荐" is-link />
+      <van-cell icon="gold-coin" title="积分兑换" is-link to="Integral"/>
+      <!-- <van-cell icon="exchange" title="我的版本" value="0.1.0"/> -->
+      <van-cell icon="info-o" title="当前版本" value="0.1.1" />
+      <van-cell icon="exchange" title="我的建议" is-link/>
     </van-cell-group>
   </div>
 </template>
@@ -54,6 +55,9 @@ export default {
     [Icon.name]: Icon,
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup
+  },
+  data() {
+    return {};
   }
 };
 </script>
@@ -63,7 +67,8 @@ export default {
   &-background {
     padding-top: 10%;
     text-align: center;
-    .name-span{
+    //background-image: url(../assets/images/timg.jpg);
+    .name-span {
       padding: 2%;
       color: white;
     }
@@ -79,7 +84,8 @@ export default {
     width: 100%;
     height: 12rem;
     display: block;
-    background-color: #38f;
+    //background-color: #38f;
+    background-image: url(../assets/images/timg.png);
   }
   &-group {
     margin-bottom: 0.3rem;

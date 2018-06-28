@@ -14,7 +14,8 @@ import Login from '@/components/Login';
 import Submit from '@/components/Submit';
 import PayBack from '@/components/PayBack';
 import Registered from '@/components/Registered';
-
+import Integral from '@/components/Integral';
+import Trade from '@/components/Trade';
 import Service from "@/components/_common/index";
 
 Vue.use(Router);
@@ -95,6 +96,16 @@ const routers = [{
         path: "/registered",
         name: "registered",
         component: Registered
+    },
+    {
+        path: "/integral",
+        name: "integral",
+        component: Integral
+    },
+    {
+        path: "/trade",
+        name: "trade",
+        component: Trade
     }
 ];
 
