@@ -53,6 +53,14 @@ export default {
                 return /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(value);
             }
         });
+        Validator.extend('username', {
+            getMessage: function() {
+                return "*用户名无效！"
+            },
+            validate: function(value) {
+                return /^[a-zA-Z0-9]{6,16}$/.test(value);
+            }
+        });
         Validator.extend('zhname', {
             getMessage: function() {
                 return "*中文名称无效！"
@@ -66,7 +74,7 @@ export default {
                 return "*密码6-16位！"
             },
             validate: function(value) {
-                return /^\d{6,16}$/.test(value);
+                return /^[a-zA-Z0-9]{6,16}$/.test(value);
             }
         });
         Validator.extend('password2', {

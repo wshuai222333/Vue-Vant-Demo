@@ -5,19 +5,37 @@
         </div>
         <div class="login-form">
             <div class="login-inp">
-                <label>登录</label><input type="text" placeholder="登录"></div>
+                <label>用户名</label><input type="text" placeholder="手机号"></div>
             <div class="login-inp">
                 <label>密码</label><input type="password" placeholder="密码"></div>
             <div class="login-inp">
-                <a href="#">立即登录</a>
+                <a @click="OnLogin">立即登录</a>
             </div>
         </div>
         <div class="login-txt">
-            <a href="#">立即注册</a>|
+            <a @click="OnClickRed">立即注册</a>|
             <a href="#">忘记密码？</a>
         </div>
     </div>
 </template>
+
+<script>
+export default {
+  data(){
+    return{
+
+    }
+  },
+  methods:{
+    OnClickRed(){
+      this.$router.push("Registered");
+    },
+    OnLogin(){
+      this.$router.push("Home");
+    }
+  }
+}
+</script>
 
 
 <style scoped>

@@ -2,7 +2,7 @@
 
   <van-cell-group :border="show" >
     <van-nav-bar title="标题" left-arrow @click-left="onClickLeft"></van-nav-bar>
-    <van-notice-bar text="足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
+    <van-notice-bar text="晚上21点后到账有延迟，请耐心等待。" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
     <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入500-20000的金额"  @click-icon="card.trans_amt=''"></van-field>
     <span class="van-field-error" v-show="errors.has('trans_amt')">{{ errors.first('trans_amt')}}</span>
 

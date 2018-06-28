@@ -13,6 +13,9 @@ import Recommend from '@/components/Recommend';
 import Login from '@/components/Login';
 import Submit from '@/components/Submit';
 import PayBack from '@/components/PayBack';
+import Registered from '@/components/Registered';
+
+import Service from "@/components/_common/index";
 
 Vue.use(Router);
 
@@ -87,6 +90,11 @@ const routers = [{
         path: "/payBack",
         name: "payBack",
         component: PayBack
+    },
+    {
+        path: "/registered",
+        name: "registered",
+        component: Registered
     }
 ];
 
@@ -96,6 +104,6 @@ const router = new Router({
 });
 
 //路由守卫，登录验证
-//Service.Auth.loginAuth(router, routers);
+Service.Auth.loginAuth(router, routers);
 
 export default router;
