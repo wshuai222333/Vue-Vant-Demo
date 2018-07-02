@@ -8,8 +8,11 @@
       <!-- <van-col offset="12" span="24"> -->
       <div class="user-background">
         <img class="user-head" src="../assets/images/头像.png" alt="">
-        <div class="name-span">
-          <span>用户名</span>
+        <div class="name-span" v-text="username">
+          <!-- 111 -->
+          <!-- <label :value="username"></label> -->
+          <!-- <input type="text" value="111" v-model="username"> -->
+          <!-- <span v-model="username"></span> -->
         </div>
       </div>
 
@@ -37,18 +40,30 @@
       <van-cell icon="records" title="我的交易" is-link to="Trade" />
     </van-cell-group>
 
-    <van-cell-group>
-      <van-cell icon="gold-coin" title="积分兑换" is-link to="Integral"/>
+    <van-cell-group class="user-group">
+      <!-- <van-cell icon="gold-coin" title="积分兑换" is-link to="Integral" /> -->
       <!-- <van-cell icon="exchange" title="我的版本" value="0.1.0"/> -->
       <van-cell icon="info-o" title="当前版本" value="0.1.1" />
-      <van-cell icon="exchange" title="我的建议" is-link/>
+      <van-cell icon="exchange" title="修改密码" is-link to="Password"/>
+      <van-cell icon="edit" title="我的建议" is-link/>
+
     </van-cell-group>
+
+    <div class="card-div">
+      <van-button class="card-btn" bottom-action @click="loginout">退出当前账户</van-button>
+    </div>
   </div>
 </template>
 
 <script>
 import { Row, Col, Icon, Cell, CellGroup } from "vant";
+import Service from "./_common";
 export default {
+  data() {
+    return {
+      username: ""
+    };
+  },
   components: {
     [Row.name]: Row,
     [Col.name]: Col,
@@ -56,8 +71,15 @@ export default {
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup
   },
-  data() {
-    return {};
+  methods: {
+    loginout() {
+      Service.Util.RemoveLocalStorage(Service.Enum.CGT_ALI_USER);
+      this.$router.push("/login");
+    }
+  },
+  created() {
+    let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+    this.username = user.UserName;
   }
 };
 </script>
@@ -100,6 +122,16 @@ export default {
       font-size: 24px;
     }
   }
+}
+.card-div {
+  margin-top: 30%;
+}
+.card-btn {
+  font-size: 22px;
+  width: 91%;
+  margin: 15px;
+  height: 45px;
+  background-color: #38f;
 }
 </style>
 

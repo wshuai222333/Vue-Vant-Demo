@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router'
 import store from "./_store/store";
 import Validtor from "./_validator/index";
+import Service from "./components/_common/index";
 
 import {
     NavBar,
@@ -34,7 +35,7 @@ Vue.use(NavBar).use(Tabbar).use(TabbarItem).use(Tab).use(Tabs).use(Panel).use(Ro
 
 Vue.config.productionTip = false
     //http请求
-    // Service.Interceptor.LoadAxios();
+Service.Interceptor.LoadAxios();
 
 //表单验证
 Validtor.LoadValidator();

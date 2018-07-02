@@ -21,7 +21,7 @@ export default {
         axios.defaults.timeout = 60000;
 
         //process.env.NODE_ENV="";
-        axios.defaults.baseURL = "";
+        axios.defaults.baseURL = "http://127.0.0.1:7002";
 
         //请求次数
         axios.defaults.retry = 4;

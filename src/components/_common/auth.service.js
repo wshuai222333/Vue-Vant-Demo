@@ -1,5 +1,7 @@
 import EnumService from "./enum.service";
 import UtilService from "./util.service";
+import { Toast } from "vant";
+import Service from "../_common/index";
 /** 
  * AuthService
  * 验证服务
@@ -18,7 +20,9 @@ export default {
      * 确保要调用 next 方法，否则钩子就不会被 resolved。
      */
     loginAuth: (router, routers) => {
-        let IsLogin = UtilService.IsExistLocalStorage(EnumService.CGT_ALI_USER);
+
+        //let IsLogin = UtilService.IsExistLocalStorage(EnumService.CGT_ALI_USER);
+
         router.beforeEach((to, from, next) => {
             let nextRoute = [];
 
@@ -29,14 +33,22 @@ export default {
                         nextRoute.push(elements.name);
                     });
                 }
-                nextRoute.push(element.name);
+                if (element.name != "login") {
+                    nextRoute.push(element.name);
+                }
+
             });
 
-
+            let IsLogin = Service.Util.IsExistLocalStorage(Service.Enum.CGT_ALI_USER);
             //console.log(nextRoute);
             //判断当前路由是否在配置内
             if (nextRoute.indexOf(to.name) > -1) {
-                if (!IsLogin && to.name !== "home") {
+                // if (!IsLogin && to.name !== "home" && to.name !== "registered") {
+                //     Toast("请先登录平台");
+                //     router.push("Login");
+                // }
+                if (!IsLogin && to.name !== "registered") {
+                    Toast("请先登录平台");
                     router.push("Login");
                 }
             }

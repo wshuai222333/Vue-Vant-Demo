@@ -16,6 +16,7 @@ import PayBack from '@/components/PayBack';
 import Registered from '@/components/Registered';
 import Integral from '@/components/Integral';
 import Trade from '@/components/Trade';
+import Password from '@/components/Password';
 import Service from "@/components/_common/index";
 
 Vue.use(Router);
@@ -106,6 +107,11 @@ const routers = [{
         path: "/trade",
         name: "trade",
         component: Trade
+    },
+    {
+        path: "/password",
+        name: "password",
+        component: Password
     }
 ];
 
@@ -113,7 +119,6 @@ const router = new Router({
     mode: 'history',
     routes: routers
 });
-
 //路由守卫，登录验证
 Service.Auth.loginAuth(router, routers);
 

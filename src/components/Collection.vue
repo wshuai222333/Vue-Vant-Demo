@@ -1,36 +1,36 @@
 <template>
 
-  <van-cell-group :border="show" >
+  <van-cell-group :border="show">
     <van-nav-bar title="标题" left-arrow @click-left="onClickLeft"></van-nav-bar>
     <van-notice-bar text="晚上21点后到账有延迟，请耐心等待。" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
-    <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入500-20000的金额"  @click-icon="card.trans_amt=''"></van-field>
+    <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入500-20000的金额" @click-icon="card.trans_amt=''"></van-field>
     <span class="van-field-error" v-show="errors.has('trans_amt')">{{ errors.first('trans_amt')}}</span>
 
-    <van-field name='card_id' v-validate="'required|digital'" v-model="card.card_id" label="信用卡卡号" placeholder="请输入银行卡卡号" icon="clear"  @click-icon="card.card_id=''" />
+    <van-field name='card_id' v-validate="'required|digital'" v-model="card.card_id" label="信用卡卡号" placeholder="请输入银行卡卡号" icon="clear" @click-icon="card.card_id=''" />
     <span class="van-field-error" v-show="errors.has('card_id')">{{ errors.first('card_id')}}</span>
 
-    <van-field name='mobile_no' v-validate="'required|phone'" v-model="card.mobile_no" label="预留手机号" placeholder="请输入银行预留手机号" icon="clear"  @click-icon="card.mobile_no=''" />
+    <van-field name='mobile_no' v-validate="'required|phone'" v-model="card.mobile_no" label="预留手机号" placeholder="请输入银行预留手机号" icon="clear" @click-icon="card.mobile_no=''" />
     <span class="van-field-error" v-show="errors.has('mobile_no')">{{ errors.first('mobile_no')}}</span>
 
     <van-field v-model="bank_name" label="选择银行" placeholder="选择银行" readonly="readonly" @click="onClick()">
       <van-icon slot="icon" name="add-o" @click="onClick()" />
     </van-field>
-    <van-field name='acct_cardno' v-validate="'required|digital'" v-model="card.acct_cardno" label="收款银行卡号" placeholder="只可以是借记卡" icon="clear"  @click-icon="card.acct_cardno=''" />
+    <van-field name='acct_cardno' v-validate="'required|digital'" v-model="card.acct_cardno" label="收款银行卡号" placeholder="只可以是借记卡" icon="clear" @click-icon="card.acct_cardno=''" />
     <span class="van-field-error" v-show="errors.has('acct_cardno')">{{ errors.first('acct_cardno')}}</span>
 
-    <van-field name='acct_name' v-validate="'required|zhname'" v-model="card.acct_name" label="持卡人姓名" placeholder="必须和信用卡人名一致,否则无法提现" icon="clear"  @click-icon="card.acct_name=''" />
+    <van-field name='acct_name' v-validate="'required|zhname'" v-model="card.acct_name" label="持卡人姓名" placeholder="必须和信用卡人名一致,否则无法提现" icon="clear" @click-icon="card.acct_name=''" />
     <span class="van-field-error" v-show="errors.has('acct_name')">{{ errors.first('acct_name')}}</span>
 
-    <van-field name='acct_idcard' v-validate="'required|idcard'" v-model="card.acct_idcard" label="持卡人身份证" placeholder="仅支持18位身份证" icon="clear"  @click-icon="card.acct_idcard=''" />
+    <van-field name='acct_idcard' v-validate="'required|idcard'" v-model="card.acct_idcard" label="持卡人身份证" placeholder="仅支持18位身份证" icon="clear" @click-icon="card.acct_idcard=''" />
     <span class="van-field-error" v-show="errors.has('acct_idcard')">{{ errors.first('acct_idcard')}}</span>
 
     <van-field name='trade_rate' label="费率" :value="card.trade_rate+'‰'" error required></van-field>
+    <van-field name='trade_rate_code' label="优惠码" v-model="trade_rate_code" @keyup="onChangerate" placeholder="请输入优惠码" icon="clear"></van-field>
 
     <van-button bottom-action class="card-btn" @click="onsubmit">
       下一步
     </van-button>
 
-   
     <input type='hidden' name='version' v-model="card.version" />
     <input type='hidden' name='cust_id' v-model="card.cust_id" />
     <input type='hidden' name='ord_id' v-model="card.ord_id" />
@@ -63,6 +63,7 @@ export default {
     return {
       show: false,
       bank_name: "",
+      trade_rate_code: "",
       card: {
         trans_amt: "",
         card_id: "",
@@ -70,7 +71,7 @@ export default {
         acct_cardno: "",
         acct_name: "",
         acct_idcard: "",
-        trade_rate: "4.10",
+        trade_rate: "6.00",
         sub_mer_id: "",
 
         bank_num: "",
@@ -110,6 +111,13 @@ export default {
     };
   },
   methods: {
+    onChangerate() {
+      if (this.trade_rate_code === "ws") {
+        this.card.trade_rate = "4.20";
+      } else {
+        this.card.trade_rate = "6.00";
+      }
+    },
     onChange(picker, value, index) {
       Toast(`当前值：${value.text}, 当前索引：${value.value}`);
     },
@@ -130,21 +138,39 @@ export default {
     },
     ...mapActions(["cardAsyn"]),
     onsubmit: function() {
-      debugger;
-      this.card.trans_amt = Number(this.card.trans_amt).toFixed(2);
-      this.card.ord_id = UtilService.GenerateOrderIdByTime();
-      this.card.check_value = EncryptService.GetCheckValue(this.card);
-      this.cardAsyn(this.card);
-      // let cardlist = this.cards;
-      // let routeData = this.$router.resolve("Submit");
-      // window.open(routeData.href, "_blank");
-      this.$router.push("Submit");
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          this.card.trans_amt = Number(this.card.trans_amt).toFixed(2);
+          this.card.ord_id = UtilService.GenerateOrderIdByTime();
+          this.card.check_value = EncryptService.GetCheckValue(this.card);
+          let cardls = {
+            card_id: this.card.card_id,
+            mobile_no: this.card.mobile_no,
+            bank_name: this.bank_name,
+            bank_num: this.card.bank_num,
+            acct_cardno: this.card.acct_cardno,
+            acct_name: this.card.acct_name,
+            acct_idcard: this.card.acct_idcard
+          };
+          UtilService.SetLocalStorage("cards", JSON.stringify(cardls));
+          this.cardAsyn(this.card);
+          this.$router.push("Submit");
+        } else {
+          this.$toast("输入为空或格式错误！");
+        }
+      });
     }
+  },
+  mounted() {
+    let cardls = JSON.parse(UtilService.GetLocalStorage("cards"));
+    this.card.card_id = cardls.card_id;
+    this.card.mobile_no = cardls.mobile_no;
+    this.bank_name = cardls.bank_name;
+    this.card.bank_num = cardls.bank_num;
+    this.card.acct_cardno = cardls.acct_cardno;
+    this.card.acct_name = cardls.acct_name;
+    this.card.acct_idcard = cardls.acct_idcard;
   }
-  // ,
-  // computed: {
-  //   ...mapGetters(["cards"])
-  // }
 };
 </script>
 
