@@ -11,8 +11,8 @@
 
             <input type='hidden' name='version' v-model="version" />
             <input type='hidden' name='cust_id' v-model="cust_id" />
-            <input type='hidden' name='ord_id' :value="ord_id" />
-            <input type='hidden' name='sub_mer_id' v-model="acct_idcard" />
+            <input type='hidden' name='ord_id' v-model="ord_id" />
+            <input type='hidden' name='sub_mer_id' v-model="sub_mer_id" />
             <input type='hidden' name='subject' v-model="subject" />
             <input type='hidden' name='gate_id' v-model="gate_id" />
             <input type='hidden' name='draw_fee' v-model="draw_fee" />
@@ -58,7 +58,8 @@ export default {
   },
 
   created() {
-    this.trans_amt = this.cards.trans_amt;
+    debugger;
+    this.trans_amt = Number(this.cards.trans_amt).toFixed(2);
     this.card_id = this.cards.card_id;
     this.mobile_no = this.cards.mobile_no;
     this.acct_cardno = this.cards.acct_cardno;
@@ -85,7 +86,7 @@ export default {
     ...mapGetters(["cards"])
   },
   mounted() {
-    debugger;
+    
     this.$refs.merRecvRequest.submit();
   }
 };

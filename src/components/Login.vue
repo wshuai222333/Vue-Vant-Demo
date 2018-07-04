@@ -6,6 +6,7 @@
     <div class="login-form">
       <div class="login-inp">
         <label>用户名</label><input type="text" v-model="username" placeholder="用户名/手机号"></div>
+        
       <div class="login-inp">
         <label>密码</label><input type="password" v-model="userpwd" placeholder="密码"></div>
       <div class="login-inp">
@@ -13,7 +14,7 @@
       </div>
     </div>
     <div class="login-txt">
-      <a @click="OnClickRed">立即注册</a>|
+      <a @click="OnClickRed">立即注册</a>
       <!-- <a href="#">忘记密码？</a> -->
     </div>
   </div>

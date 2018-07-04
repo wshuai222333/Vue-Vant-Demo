@@ -2,7 +2,7 @@
     <van-cell-group :border="show">
         <van-nav-bar title="修改密码" left-arrow @click-left="onClickLeft"></van-nav-bar>
         <van-field name='olduserpwd' v-validate="'required|password'" v-model="olduserpwd" label="旧密码" placeholder="请输入6-16位英文+数字" icon="clear" @click-icon="userpwd=''" type="password" />
-        <span class="van-field-error" v-show="errors.has('userpwd')">{{ errors.first('userpwd')}}</span>
+        <span class="van-field-error" v-show="errors.has('olduserpwd')">{{ errors.first('olduserpwd')}}</span>
         <van-field name='userpwd' v-validate="'required|password'" v-model="userpwd" label="新密码" placeholder="请输入6-16位英文+数字" icon="clear" @click-icon="userpwd=''" type="password" />
         <span class="van-field-error" v-show="errors.has('userpwd')">{{ errors.first('userpwd')}}</span>
         <van-field name='userpwd2' v-validate="'required|password2'" v-model="userpwd2" label="确认新密码" placeholder="请输入确认新密码" icon="clear" @click-icon="userpwd2=''" type="password" />
@@ -30,6 +30,7 @@ export default {
       this.$router.push("User");
     },
     onSubmit() {
+      
       this.btnloding = true;
       this.$validator.validateAll().then(result => {
         if (result) {

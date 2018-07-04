@@ -17,6 +17,9 @@ import Registered from '@/components/Registered';
 import Integral from '@/components/Integral';
 import Trade from '@/components/Trade';
 import Password from '@/components/Password';
+import Propaganda from '@/components/Propaganda';
+import Advice from '@/components/Advice';
+
 import Service from "@/components/_common/index";
 
 Vue.use(Router);
@@ -50,6 +53,11 @@ const routers = [{
                 path: "member",
                 name: "member",
                 component: Member
+            },
+            {
+                path: "propaganda",
+                name: "propaganda",
+                component: Propaganda
             }
         ]
     },
@@ -112,6 +120,11 @@ const routers = [{
         path: "/password",
         name: "password",
         component: Password
+    },
+    {
+        path: "/advice",
+        name: "advice",
+        component: Advice
     }
 ];
 

@@ -1,7 +1,7 @@
 <template>
   <div class="card-index">
-    <van-nav-bar title="标题" left-arrow @click-left="onClickLeft"></van-nav-bar>
-    <van-row>
+    <van-nav-bar title="推荐" left-arrow @click-left="onClickLeft"></van-nav-bar>
+    <!-- <van-row>
       <van-col span="12" class="tableprice">
         <img class="tableprice-img" src="../assets/images/支付宝.png" />
         <span>减万5</span>
@@ -20,7 +20,7 @@
         <img class="tableprice-img" src="../assets/images/POS.png" />
         <span>减万5</span>
       </van-col>
-    </van-row>
+    </van-row> -->
     <van-button bottom-action class="card-btn" @click="onClick()">立即推荐</van-button>
     <van-actionsheet v-model="show" title="链接分享到">
         <van-cell-group class="home-van-cell-group" :border="border">

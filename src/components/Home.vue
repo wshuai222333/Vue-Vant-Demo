@@ -2,8 +2,8 @@
     <div>
         <van-search />
         <van-swipe :autoplay="3000">
-            <van-swipe-item><img class="home-van-swipe-img" src="https://img.yzcdn.cn/public_files/2017/09/05/3bd347e44233a868c99cf0fe560232be.jpg" /></van-swipe-item>
-            <van-swipe-item><img class="home-van-swipe-img" src="https://img.yzcdn.cn/public_files/2017/09/05/c0dab461920687911536621b345a0bc9.jpg" /></van-swipe-item>
+            <van-swipe-item><img class="home-van-swipe-img" src="../assets/images/_20180703222834.jpg" /></van-swipe-item>
+            <!-- <van-swipe-item><img class="home-van-swipe-img" src="https://img.yzcdn.cn/public_files/2017/09/05/c0dab461920687911536621b345a0bc9.jpg" /></van-swipe-item> -->
         </van-swipe>
         <van-cell-group class="home-van-cell-group" :border="border">
             <van-cell :border="border">
@@ -18,7 +18,7 @@
                             <img src="../assets/images/收款.png" />
                         </van-col>
                     </router-link>
-                    <router-link to="Member">
+                    <router-link to="Propaganda">
                     <van-col class="home-van-cell-group-cell-item" span="3">
                         <img src="../assets/images/优惠.png" />
                     </van-col>
@@ -66,7 +66,7 @@ export default {
 <style scoped>
 .home-van-swipe-img {
   width: 100%;
-  height: 16rem;
+  height: 10rem;
 }
 .home-van-cell-group {
   padding: 1rem;

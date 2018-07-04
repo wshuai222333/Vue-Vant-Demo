@@ -2,7 +2,7 @@
 
   <van-cell-group :border="show">
     <van-nav-bar title="标题" left-arrow @click-left="onClickLeft"></van-nav-bar>
-    <van-notice-bar text="晚上21点后到账有延迟，请耐心等待。" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
+    <van-notice-bar text="晚上21点后可能延迟到账，请耐心等待。" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
     <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入500-20000的金额" @click-icon="card.trans_amt=''"></van-field>
     <span class="van-field-error" v-show="errors.has('trans_amt')">{{ errors.first('trans_amt')}}</span>
 
@@ -24,8 +24,9 @@
     <van-field name='acct_idcard' v-validate="'required|idcard'" v-model="card.acct_idcard" label="持卡人身份证" placeholder="仅支持18位身份证" icon="clear" @click-icon="card.acct_idcard=''" />
     <span class="van-field-error" v-show="errors.has('acct_idcard')">{{ errors.first('acct_idcard')}}</span>
 
-    <van-field name='trade_rate' label="费率" :value="card.trade_rate+'‰'" error required></van-field>
-    <van-field name='trade_rate_code' label="优惠码" v-model="trade_rate_code" @keyup="onChangerate" placeholder="请输入优惠码" icon="clear"></van-field>
+    <van-field name='trade_rate' label="费率" :value="card.trade_rate+'‰'" error required readonly="readonly"></van-field>
+    <van-field name='draw_fee' label="手续费" :value="card.draw_fee+'元'" error required readonly="readonly"></van-field>
+    <van-field name='trade_rate_code' label="优惠码" v-model="trade_rate_code" placeholder="请输入优惠码" icon="clear"></van-field>
 
     <van-button bottom-action class="card-btn" @click="onsubmit">
       下一步
@@ -57,6 +58,7 @@
 import { Toast } from "vant";
 import UtilService from "./_common/util.service.js";
 import EncryptService from "./_common/encrypt.service.js";
+import Service from "./_common";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 export default {
   data() {
@@ -110,6 +112,9 @@ export default {
       ]
     };
   },
+  watch: {
+    trade_rate_code: "onChangerate"
+  },
   methods: {
     onChangerate() {
       if (this.trade_rate_code === "ws") {
@@ -140,9 +145,10 @@ export default {
     onsubmit: function() {
       this.$validator.validateAll().then(result => {
         if (result) {
-          this.card.trans_amt = Number(this.card.trans_amt).toFixed(2);
+          this.card.sub_mer_id = this.card.acct_idcard;
           this.card.ord_id = UtilService.GenerateOrderIdByTime();
           this.card.check_value = EncryptService.GetCheckValue(this.card);
+          
           let cardls = {
             card_id: this.card.card_id,
             mobile_no: this.card.mobile_no,
@@ -152,9 +158,52 @@ export default {
             acct_name: this.card.acct_name,
             acct_idcard: this.card.acct_idcard
           };
+          //记录信用卡缓存
           UtilService.SetLocalStorage("cards", JSON.stringify(cardls));
-          this.cardAsyn(this.card);
-          this.$router.push("Submit");
+          //获取缓存用户信息
+          let user = UtilService.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+          //添加交易请求
+          this.$http
+            .post(
+              "/api/Trade/AddTrade",
+              Service.Encrypt.DataEncryption({
+                TradeOrderId: this.card.ord_id,
+                Amount: this.card.trans_amt,
+                CardId: this.card.card_id,
+                MobileNo: this.card.mobile_no,
+                BankName: this.bank_name,
+                BankNum: this.card.bank_num,
+                AcctCardNo: this.card.acct_cardno,
+                AcctName: this.card.acct_name,
+                AcctIdCard: this.card.acct_idcard,
+                TradeRate: this.card.trade_rate,
+                TradeRateCode: this.trade_rate_code,
+                UserAccountId: user.UserAccountId
+              })
+            )
+            .then(
+              response => {
+                if (
+                  response.data &&
+                  response.data != null &&
+                  response.data != undefined
+                ) {
+                  
+                  if (response.data.Status == 100 && response.data.Data>0) {
+                    this.cardAsyn(this.card);
+                    this.$router.push("Submit");
+                  } else {
+                    this.$toast(response.data.Message);
+                  }
+                } else {
+                  this.$toast(response.data.Message);
+                }
+              },
+              error => {
+                this.$toast("请求失败！");
+                console.log(error);
+              }
+            );
         } else {
           this.$toast("输入为空或格式错误！");
         }

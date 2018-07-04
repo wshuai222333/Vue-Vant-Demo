@@ -44,14 +44,13 @@
       <!-- <van-cell icon="gold-coin" title="积分兑换" is-link to="Integral" /> -->
       <!-- <van-cell icon="exchange" title="我的版本" value="0.1.0"/> -->
       <van-cell icon="info-o" title="当前版本" value="0.1.1" />
-      <van-cell icon="exchange" title="修改密码" is-link to="Password"/>
-      <van-cell icon="edit" title="我的建议" is-link/>
+      <van-cell icon="exchange" title="修改密码" is-link to="Password" />
+      <van-cell icon="edit" title="我的建议" is-link to="Advice"/>
 
     </van-cell-group>
 
-    <div class="card-div">
-      <van-button class="card-btn" bottom-action @click="loginout">退出当前账户</van-button>
-    </div>
+    <van-button class="card-btn" bottom-action @click="loginout">退出当前账户</van-button>
+
   </div>
 </template>
 
@@ -89,6 +88,7 @@ export default {
   &-background {
     padding-top: 10%;
     text-align: center;
+    width: 100%;
     //background-image: url(../assets/images/timg.jpg);
     .name-span {
       padding: 2%;
@@ -104,10 +104,15 @@ export default {
   }
   &-poster {
     width: 100%;
-    height: 12rem;
+    // height: 12rem;
+    height: 100%;
     display: block;
-    //background-color: #38f;
+    // background-color: #38f;
     background-image: url(../assets/images/timg.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    
   }
   &-group {
     margin-bottom: 0.3rem;
@@ -123,9 +128,7 @@ export default {
     }
   }
 }
-.card-div {
-  margin-top: 30%;
-}
+
 .card-btn {
   font-size: 22px;
   width: 91%;
