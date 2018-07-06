@@ -19,6 +19,9 @@ import Trade from '@/components/Trade';
 import Password from '@/components/Password';
 import Propaganda from '@/components/Propaganda';
 import Advice from '@/components/Advice';
+import Forward from '@/components/Forward'
+import Problem from '@/components/Problem'
+import ProblemDetail from '@/components/ProblemDetail'
 
 import Service from "@/components/_common/index";
 
@@ -125,6 +128,21 @@ const routers = [{
         path: "/advice",
         name: "advice",
         component: Advice
+    },
+    {
+        path: "/forward",
+        name: "forward",
+        component: Forward
+    },
+    {
+        path: "/problem",
+        name: "problem",
+        component: Problem
+    },
+    {
+        path: "/problemDetail",
+        name: "problemDetail",
+        component: ProblemDetail
     }
 ];
 

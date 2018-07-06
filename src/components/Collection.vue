@@ -1,8 +1,8 @@
 <template>
 
   <van-cell-group :border="show">
-    <van-nav-bar title="标题" left-arrow @click-left="onClickLeft"></van-nav-bar>
-    <van-notice-bar text="晚上21点后可能延迟到账，请耐心等待。" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
+    <van-nav-bar title="收款取现" left-arrow @click-left="onClickLeft"></van-nav-bar>
+    <van-notice-bar text="晚上21点后可能延迟到账，请耐心等待。" mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
     <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入500-20000的金额" @click-icon="card.trans_amt=''"></van-field>
     <span class="van-field-error" v-show="errors.has('trans_amt')">{{ errors.first('trans_amt')}}</span>
 
@@ -85,8 +85,8 @@ export default {
         draw_fee: "1.00",
         check_value: "",
 
-        ret_url: "http://101.201.75.82:8080/PayBack",
-        bg_ret_url: "http://www.baidu.com",
+        ret_url: "http://www.hemiv.cn/PayBack",
+        bg_ret_url: "http://118.190.85.204:7002/api/TradeNotify/TradeNotify",
         mer_priv: "",
         extension: ""
       },
@@ -145,8 +145,8 @@ export default {
     onsubmit: function() {
       this.$validator.validateAll().then(result => {
         if (result) {
-          this.card.sub_mer_id = this.card.acct_idcard;
-          this.card.ord_id = UtilService.GenerateOrderIdByTime();
+          this.card.sub_mer_id = this.card.acct_idcard; 
+          this.card.ord_id = Service.Convert.Dateformat(new Date(),"yyyyMMddhhmmssS");
           this.card.check_value = EncryptService.GetCheckValue(this.card);
           
           let cardls = {

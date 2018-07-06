@@ -26,7 +26,9 @@
       <van-row v-for="item in list" :key="item.TradeId" :title="item + ''">
         <van-card :title="'订单号:'+item.TradeOrderId" :desc="item.BankName" :price="item.Amount">
           <div slot="footer">
-            <span class="van-row-title">已完成</span>
+            <span class="van-row-title" v-if="item.State==0">未完成</span>
+            <span class="van-row-title" v-if="item.State==1">已完成</span>
+            <span class="van-row-title" v-if="item.State==2">交易失败</span>
             <span class="van-row-title" v-text="item.CreateTime"></span>
           </div>
         </van-card>
@@ -46,7 +48,7 @@ export default {
       finished: false,
       index: 1,
       listcount: 6,
-      immediatecheck:true
+      immediatecheck: true
     };
   },
   methods: {
@@ -54,11 +56,10 @@ export default {
       this.$router.push("User");
     },
     onLoad() {
-      
       setTimeout(() => {
         //获取缓存用户信息
         let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
-        
+
         //添加交易请求
         this.$http
           .post(
@@ -71,19 +72,18 @@ export default {
           )
           .then(
             response => {
-              
               if (
                 response.data &&
                 response.data != null &&
                 response.data != undefined
               ) {
-                
                 if (response.data.Status == 100) {
-                  
                   this.listcount = response.data.Data.TotalItems;
+                  debugger;
                   response.data.Data.Items.forEach(element => {
                     this.list.push(element);
                   });
+
                   this.index++;
                 } else {
                 }
@@ -100,8 +100,6 @@ export default {
         if (this.list.length >= this.listcount) {
           this.finished = true;
         }
-        
-        
       }, 1000);
     }
   }

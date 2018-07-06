@@ -2,7 +2,7 @@
   <van-tabbar v-model="active">
     <van-tabbar-item icon="wap-home" to="../Home">首页</van-tabbar-item>
     <!-- <van-tabbar-item icon="balance-details" to="../Collection">钱包</van-tabbar-item> -->
-    <van-tabbar-item icon="point-gift" to="../Propaganda">会员</van-tabbar-item>
+    <!-- <van-tabbar-item icon="point-gift" to="../Propaganda">会员</van-tabbar-item> -->
     <van-tabbar-item icon="contact" to="../User">我的</van-tabbar-item>
   </van-tabbar>
 </template>

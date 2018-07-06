@@ -4,6 +4,7 @@ import Encrypt from "./encrypt.service";
 import Interceptor from "./interceptor.service";
 import Util from "./util.service";
 import Enum from "./enum.service";
+import Convert from "./convert.service"
 
 export default {
     Auth,
@@ -11,5 +12,6 @@ export default {
     Encrypt,
     Interceptor,
     Util,
-    Enum
+    Enum,
+    Convert
 }

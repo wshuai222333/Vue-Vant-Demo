@@ -60,7 +60,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .van-field__control {
   border: solid 1px #38f;
 }
