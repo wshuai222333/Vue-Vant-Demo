@@ -2,11 +2,12 @@
     <div>
         <van-search />
         <van-swipe :autoplay="3000">
-            <van-swipe-item><img class="home-van-swipe-img" src="https://img.yzcdn.cn/public_files/2017/09/05/c0dab461920687911536621b345a0bc9.jpg" /></van-swipe-item>
+            <van-swipe-item><img class="home-van-swipe-img" src="../assets/images/lubo1.jpg" /></van-swipe-item>
+            <van-swipe-item><img class="home-van-swipe-img" src="../assets/images/lubo2.jpg" /></van-swipe-item>
         </van-swipe>
         <!-- <div class="home-p"></div> -->
         <van-cell-group class="home-van-cell-group" :border="border">
-            <van-cell :border="border" title="快捷服务" is-link  class="home-p">
+            <van-cell :border="border" title="快捷服务" is-link class="home-p">
             </van-cell>
             <van-cell :border="border">
                 <van-row>
@@ -64,11 +65,11 @@
                             <img src="../assets/images/积分.svg" />
                         </van-col>
                     </router-link>
-                  
-                        <van-col class="home-van-cell-group-cell-item" span="6">
-                            <img src="../assets/images/更多.svg" />
-                        </van-col>
-                 
+
+                    <van-col class="home-van-cell-group-cell-item" span="6">
+                        <img src="../assets/images/更多.svg" />
+                    </van-col>
+
                 </van-row>
                 <van-row>
                     <van-col class="home-van-cell-group-cell-item" span="6">
@@ -88,12 +89,12 @@
             </van-cell>
             <van-cell :border="border" title="常见问题" is-link value="更多" to="Problem" class="home-p">
             </van-cell>
-            <van-cell :border="border" title="常见问题一" class="home-item" is-link>
-            </van-cell>
-            <van-cell :border="border" title="常见问题二" class="home-item" is-link>
-            </van-cell>
-            <van-cell :border="border" title="常见问题三" class="home-item" is-link>
-            </van-cell>
+            <van-list v-model="loading" :finished="finished" @load="onLoad">
+                <van-row v-for="item in list" :key="item.TradeId" :title="item + ''">
+                    <van-cell :border="border" :title="item.Title" class="home-item" is-link :to="{name:'problemDetail',params:{ProblemId:item.ProblemId}}">
+                    </van-cell>
+                </van-row>
+            </van-list>
         </van-cell-group>
 
         <!-- <van-cell-group :border="border">
@@ -111,13 +112,65 @@
 </template>
 
 <script>
+import Service from "./_common";
 export default {
   data() {
     return {
       border: false,
       center: true,
-      error: true
+      error: true,
+      loading: false,
+      finished: false,
+      immediatecheck: true,
+      list: [],
+      index: 1,
+      listcount: 3
     };
+  },
+  methods: {
+    onLoad() {
+      setTimeout(() => {
+        //添加交易请求
+        this.$http
+          .post(
+            "/api/User/GetProblemList",
+            Service.Encrypt.DataEncryption({
+              pageindex: this.index,
+              pagesize: 3
+            })
+          )
+          .then(
+            response => {
+              if (
+                response.data &&
+                response.data != null &&
+                response.data != undefined
+              ) {
+                if (response.data.Status == 100) {
+                  this.listcount = response.data.Data.TotalItems;
+
+                  response.data.Data.Items.forEach(element => {
+                    this.list.push(element);
+                  });
+
+                  this.index++;
+                } else {
+                }
+              } else {
+              }
+            },
+            error => {
+              console.log(error);
+            }
+          );
+
+        this.loading = false;
+
+        if (this.list.length >=  this.listcount || this.list.length >=3) {
+          this.finished = true;
+        }
+      }, 1000);
+    }
   }
 };
 </script>
@@ -140,5 +193,8 @@ export default {
 }
 .home-item {
   font-size: 16px;
+}
+.img {
+  width: 100%;
 }
 </style>
