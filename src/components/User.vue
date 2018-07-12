@@ -113,6 +113,7 @@ export default {
     background-attachment: fixed;
     background-position: center;
     
+    
   }
   &-group {
     margin-bottom: 0.3rem;

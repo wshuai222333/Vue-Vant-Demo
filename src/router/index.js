@@ -22,6 +22,8 @@ import Advice from '@/components/Advice';
 import Forward from '@/components/Forward'
 import Problem from '@/components/Problem'
 import ProblemDetail from '@/components/ProblemDetail'
+import Qrcode from '@/components/Qrcode'
+import Installment from '@/components/Installment'
 
 import Service from "@/components/_common/index";
 
@@ -143,6 +145,17 @@ const routers = [{
         path: "/problemDetail",
         name: "problemDetail",
         component: ProblemDetail
+    },
+    {
+        path: "/qrcode",
+        name: "qrcode",
+        component: Qrcode
+    },
+    {
+        path: "/installment",
+        name: "installment",
+        component: Installment
+
     }
 ];
 
