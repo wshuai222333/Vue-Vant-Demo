@@ -1,6 +1,8 @@
 import EnumService from "./enum.service";
 import UtilService from "./util.service";
-import { Toast } from "vant";
+import {
+    Toast
+} from "vant";
 import Service from "../_common/index";
 /** 
  * AuthService
@@ -48,7 +50,6 @@ export default {
                 //     router.push("Login");
                 // }
                 if (!IsLogin && to.name !== "registered" && to.name !== "home") {
-                    Toast("请先登录平台");
                     router.push("Login");
                 }
             }

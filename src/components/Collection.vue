@@ -210,6 +210,15 @@ export default {
       });
     }
   },
+  created(){
+    let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+    if(user.Memberlevel==2){
+      this.card.trade_rate=this.card.trade_rate = "4.20";
+    }
+    if(user.Memberlevel==1){
+      this.card.trade_rate=this.card.trade_rate = "4.80";
+    }
+  },
   mounted() {
     let cardls = JSON.parse(UtilService.GetLocalStorage("cards"));
     this.card.card_id = cardls.card_id;

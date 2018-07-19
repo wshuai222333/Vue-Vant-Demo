@@ -19,7 +19,7 @@ export default {
 
         //请求超时时限 我设置60000毫秒
         axios.defaults.timeout = 60000;
-        debugger;
+
         //process.env.NODE_ENV="";
         axios.defaults.baseURL = process.env.BASE_URL;
         //axios.defaults.baseURL = "http://localhost:7002";

@@ -7,13 +7,11 @@
           <van-row> -->
       <!-- <van-col offset="12" span="24"> -->
       <div class="user-background">
-        <img class="user-head" src="../assets/images/头像.png" alt="">
+        <img class="user-head" src="../assets/images/头像.png" alt="" />
         <div class="name-span" v-text="username">
-          <!-- 111 -->
-          <!-- <label :value="username"></label> -->
-          <!-- <input type="text" value="111" v-model="username"> -->
-          <!-- <span v-model="username"></span> -->
         </div>
+        <img v-if="memberlevel==2" src="../assets/images/会员等级金02.svg" />
+        <img v-if="memberlevel==1" src="../assets/images/会员等级银卡-03.svg" />
       </div>
 
       <!-- </van-col>
@@ -45,7 +43,7 @@
       <!-- <van-cell icon="exchange" title="我的版本" value="0.1.0"/> -->
       <van-cell icon="info-o" title="当前版本" value="0.1.1" />
       <van-cell icon="exchange" title="修改密码" is-link to="Password" />
-      <van-cell icon="edit" title="我的建议" is-link to="Advice"/>
+      <van-cell icon="edit" title="我的建议" is-link to="Advice" />
 
     </van-cell-group>
 
@@ -60,7 +58,8 @@ import Service from "./_common";
 export default {
   data() {
     return {
-      username: ""
+      username: "",
+      memberlevel:""
     };
   },
   components: {
@@ -79,6 +78,7 @@ export default {
   created() {
     let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
     this.username = user.UserName;
+    this.memberlevel =user.Memberlevel;
   }
 };
 </script>
@@ -112,8 +112,6 @@ export default {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-    
-    
   }
   &-group {
     margin-bottom: 0.3rem;
