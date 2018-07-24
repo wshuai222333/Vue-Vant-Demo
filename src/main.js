@@ -30,10 +30,16 @@ import {
     List,
     Search,
     Step,
-    Steps
+    Steps,
+    Checkbox,
+    CheckboxGroup,
+    RadioGroup,
+    Radio,
+    Dialog,
+    CellSwipe
 } from 'vant';
 
-Vue.use(NavBar).use(Tabbar).use(TabbarItem).use(Tab).use(Tabs).use(Panel).use(Row).use(Col).use(Button).use(Card).use(NoticeBar).use(Field).use(Picker).use(Toast).use(Cell).use(CellGroup).use(Swipe).use(SwipeItem).use(Actionsheet).use(Popup).use(Icon).use(List).use(Search).use(Step).use(Steps);
+Vue.use(NavBar).use(Tabbar).use(TabbarItem).use(Tab).use(Tabs).use(Panel).use(Row).use(Col).use(Button).use(Card).use(NoticeBar).use(Field).use(Picker).use(Toast).use(Cell).use(CellGroup).use(Swipe).use(SwipeItem).use(Actionsheet).use(Popup).use(Icon).use(List).use(Search).use(Step).use(Steps).use(Checkbox).use(CheckboxGroup).use(RadioGroup).use(Radio).use(Dialog).use(CellSwipe);
 
 Vue.config.productionTip = false
     //http请求

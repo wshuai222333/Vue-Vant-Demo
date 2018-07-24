@@ -24,6 +24,8 @@ import Problem from '@/components/Problem'
 import ProblemDetail from '@/components/ProblemDetail'
 import Qrcode from '@/components/Qrcode'
 import Installment from '@/components/Installment'
+import CardList from '@/components/CardList'
+import AddCard from '@/components/AddCard'
 
 import Service from "@/components/_common/index";
 
@@ -155,6 +157,18 @@ const routers = [{
         path: "/installment",
         name: "installment",
         component: Installment
+
+    },
+    {
+        path: "/cardList",
+        name: "cardList",
+        component: CardList
+
+    },
+    {
+        path: "/addCard",
+        name: "addCard",
+        component: AddCard
 
     }
 ];

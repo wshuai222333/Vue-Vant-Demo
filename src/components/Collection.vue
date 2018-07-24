@@ -85,7 +85,7 @@ export default {
         draw_fee: "1.00",
         check_value: "",
 
-        ret_url: "http://www.hemiv.cn/PayBack",
+        ret_url: "http://collection.hemiv.cn/PayBack",
         bg_ret_url: "http://118.190.85.204:7002/api/TradeNotify/TradeNotify",
         mer_priv: "",
         extension: ""

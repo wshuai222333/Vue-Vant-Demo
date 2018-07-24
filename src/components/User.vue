@@ -37,7 +37,10 @@
     <van-cell-group class="user-group">
       <van-cell icon="records" title="我的交易" is-link to="Trade" />
     </van-cell-group>
-
+    <van-cell-group class="user-group">
+      <van-cell icon="records" title="银行卡" is-link to="CardList" />
+    </van-cell-group>
+    
     <van-cell-group class="user-group">
       <!-- <van-cell icon="gold-coin" title="积分兑换" is-link to="Integral" /> -->
       <!-- <van-cell icon="exchange" title="我的版本" value="0.1.0"/> -->

@@ -60,7 +60,7 @@ export default {
         //获取缓存用户信息
         let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
 
-        //添加交易请求
+     
         this.$http
           .post(
             "/api/Trade/GetTradeList",
