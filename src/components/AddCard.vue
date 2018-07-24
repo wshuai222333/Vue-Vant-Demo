@@ -127,18 +127,18 @@ export default {
       this.$router.push("CardList");
     },
     onClick() {
-      // this.$validator.validateAll().then(result => {
-      //   if (result) {
-      //     if (this.radio == "") {
-      //       this.$toast("请选择银行卡类型");
-      //     } else {
-      //       this.dshow = true;
-      //     }
-      //   } else {
-      //     this.$toast("输入为空或格式错误！");
-      //   }
-      // });
-      this.dshow = true;
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          if (this.radio == "") {
+            this.$toast("请选择银行卡类型");
+          } else {
+            this.dshow = true;
+          }
+        } else {
+          this.$toast("输入为空或格式错误！");
+        }
+      });
+      
     },
     onSelectClick() {
       this.show = true;
