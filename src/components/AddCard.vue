@@ -189,22 +189,8 @@ export default {
             console.log(error);
           }
         );
-    },
-    // formatter(radio) {
-    //   var msg = "";
-    //   switch (parseInt(radio)) {
-    //     case 1:
-    //       msg = "储蓄卡";
-    //       break;
-    //     case 0:
-    //       msg = "信用卡";
-    //       break;
-    //     default:
-    //       msg = "未知类型";
-    //       break;
-    //   }
-    //   return msg;
-    // }
+    }
+    
   },
   computed:{
     formatter:function(){

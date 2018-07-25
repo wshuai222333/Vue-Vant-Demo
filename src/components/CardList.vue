@@ -1,18 +1,19 @@
 <template>
   <van-cell-group>
-    <van-nav-bar title="我的银行卡" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+    <van-nav-bar title="" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
       <van-icon name="add-o" slot="right" />
     </van-nav-bar>
-    <van-notice-bar text="每个用户最多绑定10张银行卡，删除银行卡请左滑卡片点击删除按钮。" mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
+    <!-- <van-notice-bar text="每个用户最多绑定10张银行卡，删除银行卡请左滑卡片点击删除按钮。" mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" /> -->
     <!-- <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="immediatecheck">
             <van-row v-for="item in list" :key="item.TradeId" :title="item + ''"> -->
     <van-list v-model="loading" :finished="finished" @load="onLoad">
       <van-row v-for="item in list" :key="item" :title="item + ''">
         <van-cell-swipe :right-width="65" :on-close="onClose(item)">
           <div class="card">
-            <div class="card-forecast">工商银行</div>
-            <div class="card-forecast-type">信用卡</div>
-            <div class="card-cardno">**** **** **** 1234</div>
+            <span class="card-forecast" v-text="item.BankName"></span>
+            <span class="card-forecast-type" v-if="item.Type==0">信用卡</span>
+            <span class="card-forecast-type" v-if="item.Type==1">储蓄卡</span>
+            <span class="card-cardno">**** **** ****&nbsp;<span v-text="formatter(item.CardId)"></span></span>
           </div>
           <span slot="right">删除</span>
         </van-cell-swipe>
@@ -24,34 +25,43 @@
 
 
 <script>
+import { Dialog } from "vant";
+import Service from "./_common";
+
 export default {
   data() {
     return {
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      listcount: 0
     };
   },
   methods: {
+    formatter(str) {
+      return str.substr(str.length-4);
+    },
     onClickLeft() {
       this.$router.push("User");
     },
     onClickRight() {
-      this.$router.push("AddCard");
+      if (this.listcount >= 10) {
+        Dialog.alert({
+          message: "银行卡不能大于十张。"
+        }).then(() => {});
+      } else {
+        this.$router.push("AddCard");
+      }
     },
     onLoad() {
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        this.loading = false;
-
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 500);
+      // setTimeout(() => {
+      this.getBankCardList();
+      this.loading = false;
+      this.finished = true;
+      // }
+      // }, 500);
     },
-    getBankCard() {
+    getBankCardList() {
       let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
       this.$http
         .post(
@@ -68,7 +78,8 @@ export default {
               response.data != undefined
             ) {
               if (response.data.Status == 100) {
-                response.data.Data.Items.forEach(element => {
+                this.listcount = response.data.Data.length;
+                response.data.Data.forEach(element => {
                   this.list.push(element);
                 });
               } else {
@@ -81,13 +92,12 @@ export default {
           }
         );
     },
-    deleteBankCard() {
-      let user = UtilService.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+    deleteBankCard(item) {
       this.$http
         .post(
           "/api/Trade/DeleteBankCard",
           Service.Encrypt.DataEncryption({
-            UserAccountId: user.UserAccountId
+            BankCardId: item.BankCardId
           })
         )
         .then(
@@ -114,7 +124,6 @@ export default {
     },
     onClose(item) {
       return function(clickPosition, instance) {
-        debugger;
         switch (clickPosition) {
           case "left":
           case "cell":
@@ -125,6 +134,7 @@ export default {
             Dialog.confirm({
               message: "确定删除吗？"
             }).then(() => {
+              this.deleteBankCard(item);
               instance.close();
             });
             break;
@@ -141,7 +151,7 @@ export default {
   margin: 0 auto;
 }
 .card {
-  background-color: #6495ED;
+  background-color: #6495ed;
   height: 110px;
   width: 100%;
   margin: 0 auto;
