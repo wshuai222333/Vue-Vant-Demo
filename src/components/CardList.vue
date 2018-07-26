@@ -1,6 +1,6 @@
 <template>
   <van-cell-group>
-    <van-nav-bar title="" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+    <van-nav-bar title="银行卡" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
       <van-icon name="add-o" slot="right" />
     </van-nav-bar>
     <!-- <van-notice-bar text="每个用户最多绑定10张银行卡，删除银行卡请左滑卡片点击删除按钮。" mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" /> -->

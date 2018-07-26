@@ -151,7 +151,7 @@ export default {
       }
     },
     AddBankCard() {
-      debugger;
+      
       //获取缓存用户信息
       let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
       this.$http
@@ -164,7 +164,8 @@ export default {
             BankCode: this.card.bank_num,
             Phone: this.card.mobile_no,
             AcctName: this.card.acct_name,
-            Type: this.radio
+            Type: this.radio,
+            AcctIdCard : this.card.acct_idcard
           })
         )
         .then(

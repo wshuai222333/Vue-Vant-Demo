@@ -6,7 +6,18 @@
     <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入500-20000的金额" @click-icon="card.trans_amt=''"></van-field>
     <span class="van-field-error" v-show="errors.has('trans_amt')">{{ errors.first('trans_amt')}}</span>
 
-    <van-field name='card_id' v-validate="'required|digital'" v-model="card.card_id" label="信用卡卡号" placeholder="请输入银行卡卡号" icon="clear" @click-icon="card.card_id=''" />
+    <van-collapse v-model="activeNames">
+      <van-collapse-item name="1">
+        <div slot="title">限额提示
+          <van-icon name="question" />
+        </div>
+        <span class="item-content">除建行单笔限额在1万，其他银行单笔限额为2万，单卡日累计5万限额</span>
+      </van-collapse-item>
+    </van-collapse>
+
+    <van-field name='card_id' v-validate="'required|digital'" v-model="card.card_id" label="信用卡号" placeholder="请输入银行卡号">
+      <van-icon slot="icon" name="contact" @click="oncard_idClick" />
+    </van-field>
     <span class="van-field-error" v-show="errors.has('card_id')">{{ errors.first('card_id')}}</span>
 
     <van-field name='mobile_no' v-validate="'required|phone'" v-model="card.mobile_no" label="预留手机号" placeholder="请输入银行预留手机号" icon="clear" @click-icon="card.mobile_no=''" />
@@ -15,7 +26,10 @@
     <van-field v-model="bank_name" label="选择银行" placeholder="选择银行" readonly="readonly" @click="onClick()">
       <van-icon slot="icon" name="add-o" @click="onClick()" />
     </van-field>
-    <van-field name='acct_cardno' v-validate="'required|digital'" v-model="card.acct_cardno" label="收款银行卡号" placeholder="只可以是借记卡" icon="clear" @click-icon="card.acct_cardno=''" />
+
+    <van-field name='acct_cardno' v-validate="'required|digital'" v-model="card.acct_cardno" label="收款银行卡号" placeholder="只可以是借记卡">
+      <van-icon slot="icon" name="contact" @click="onbank_idClick" />
+    </van-field>
     <span class="van-field-error" v-show="errors.has('acct_cardno')">{{ errors.first('acct_cardno')}}</span>
 
     <van-field name='acct_name' v-validate="'required|zhname'" v-model="card.acct_name" label="持卡人姓名" placeholder="必须和信用卡人名一致,否则无法提现" icon="clear" @click-icon="card.acct_name=''" />
@@ -48,14 +62,34 @@
     <input type='hidden' name='trade_rate' v-model="card.trade_rate" />
 
     <van-popup v-model="show" position="bottom">
-      <van-picker :columns="columns" :show-toolbar="true" @cancel="onCancel" @confirm="onConfirm" :visible-item-count="5"></van-picker>
+      <van-picker title="选择银行名称" :columns="columns" :show-toolbar="true" @cancel="onCancel" @confirm="onConfirm" :visible-item-count="5"></van-picker>
     </van-popup>
-  </van-cell-group>
 
+    <van-popup v-model="cshow" position="bottom">
+      <van-picker title="选择信用卡" :columns="cardscolumns" :show-toolbar="true" @cancel="onCardCancel" @confirm="onCardConfirm" :visible-item-count="10"></van-picker>
+    </van-popup>
+
+    <van-popup v-model="bshow">
+      <van-picker position="选择收款储蓄卡" :columns="bankcolumns" :show-toolbar="true" @cancel="onBankCancel" @confirm="onBankConfirm" :visible-item-count="10"></van-picker>
+    </van-popup>
+
+    <van-dialog v-model="qshow" show-cancel-button :before-close="beforeClose" title="确认信息">
+      <van-field label="金额" v-model="card.trans_amt" readonly="readonly"></van-field>
+      <van-field label="信用卡号" v-model="card.card_id" readonly="readonly"></van-field>
+      <van-field label="预留手机号" v-model="card.mobile_no" readonly="readonly"></van-field>
+      <van-field label="收款银行名称" v-model="bank_name" readonly="readonly"></van-field>
+      <van-field label="收款银行卡号" v-model="card.acct_cardno" readonly="readonly"></van-field>
+      <van-field label="持卡人姓名" v-model="card.acct_name" readonly="readonly"></van-field>
+      <van-field label="持卡人身份证" v-model="card.acct_idcard" readonly="readonly"></van-field>
+      <van-field v-model="cardwarn" error required readonly="readonly"></van-field>
+    </van-dialog>
+
+  </van-cell-group>
 </template>
 
  <script>
 import { Toast } from "vant";
+import { Dialog } from "vant";
 import UtilService from "./_common/util.service.js";
 import EncryptService from "./_common/encrypt.service.js";
 import Service from "./_common";
@@ -63,7 +97,11 @@ import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 export default {
   data() {
     return {
+      activeNames: [],
       show: false,
+      cshow: false,
+      bshow: false,
+      qshow: false,
       bank_name: "",
       trade_rate_code: "",
       card: {
@@ -90,7 +128,6 @@ export default {
         mer_priv: "",
         extension: ""
       },
-
       columns: [
         { text: "工商银行", value: "01020000" },
         { text: "中国农业银行", value: "01030000" },
@@ -109,7 +146,10 @@ export default {
         { text: "北京银行", value: "03130011" },
         { text: "上海银行", value: "03130031" },
         { text: "中国邮政储蓄银行", value: "04030000" }
-      ]
+      ],
+      cardscolumns: [],
+      bankcolumns: [],
+      cardwarn: "请核对信息以免造成损失"
     };
   },
   watch: {
@@ -129,6 +169,20 @@ export default {
     onClick() {
       this.show = true;
     },
+    oncard_idClick() {
+      if (this.cardscolumns.length == 0) {
+        this.$toast("没有绑定信用卡，请去我的-银行卡-添加信用卡功能绑定信用卡");
+      } else {
+        this.cshow = true;
+      }
+    },
+    onbank_idClick() {
+      if (this.bankcolumns.length == 0) {
+        this.$toast("没有绑定储蓄卡，请去我的-银行卡-添加信用卡功能绑定储蓄卡");
+      } else {
+        this.bshow = true;
+      }
+    },
     onConfirm(value, index) {
       this.show = false;
       this.bank_name = `${value.text}`;
@@ -138,85 +192,175 @@ export default {
     onCancel() {
       this.show = false;
     },
+    onCardConfirm(value, index) {
+      this.cshow = false;
+      this.card.card_id = `${value.value.CardId}`;
+      this.card.mobile_no = `${value.value.Phone}`;
+      // Toast(`当前值：${value.text}, 当前索引：${value.value.CardId}`);
+    },
+    onCardCancel() {
+      this.cshow = false;
+    },
+    onBankConfirm(value, index) {
+      this.bshow = false;
+      this.card.acct_cardno = `${value.value.CardId}`;
+      this.card.acct_name = `${value.value.AcctName}`;
+      this.card.acct_idcard = `${value.value.AcctIdCard}`;
+      // Toast(`当前值：${value.text}, 当前索引：${value.value.CardId}`);
+    },
+    onBankCancel() {
+      this.bshow = false;
+    },
     onClickLeft() {
       this.$router.push("Home");
     },
     ...mapActions(["cardAsyn"]),
     onsubmit: function() {
+      // this.$validator.validateAll().then(result => {
+      //   if (result) {
+      this.card.sub_mer_id = this.card.acct_idcard;
+      this.card.ord_id = Service.Convert.Dateformat(
+        new Date(),
+        "yyyyMMddhhmmssS"
+      );
+      this.card.check_value = EncryptService.GetCheckValue(this.card);
+
+      let cardls = {
+        card_id: this.card.card_id,
+        mobile_no: this.card.mobile_no,
+        bank_name: this.bank_name,
+        bank_num: this.card.bank_num,
+        acct_cardno: this.card.acct_cardno,
+        acct_name: this.card.acct_name,
+        acct_idcard: this.card.acct_idcard
+      };
+      //记录信用卡缓存
+      UtilService.SetLocalStorage("cards", JSON.stringify(cardls));
+      //获取缓存用户信息
+      let user = UtilService.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+      //添加交易请求
+      this.$http
+        .post(
+          "/api/Trade/AddTrade",
+          Service.Encrypt.DataEncryption({
+            TradeOrderId: this.card.ord_id,
+            Amount: this.card.trans_amt,
+            CardId: this.card.card_id,
+            MobileNo: this.card.mobile_no,
+            BankName: this.bank_name,
+            BankNum: this.card.bank_num,
+            AcctCardNo: this.card.acct_cardno,
+            AcctName: this.card.acct_name,
+            AcctIdCard: this.card.acct_idcard,
+            TradeRate: this.card.trade_rate,
+            TradeRateCode: this.trade_rate_code,
+            UserAccountId: user.UserAccountId
+          })
+        )
+        .then(
+          response => {
+            if (
+              response.data &&
+              response.data != null &&
+              response.data != undefined
+            ) {
+              if (response.data.Status == 100 && response.data.Data > 0) {
+                this.cardAsyn(this.card);
+                this.$router.push("Submit");
+              } else {
+                this.$toast(response.data.Message);
+              }
+            } else {
+              this.$toast(response.data.Message);
+            }
+          },
+          error => {
+            this.$toast("请求失败！");
+            console.log(error);
+          }
+        );
+      //   } else {
+      //     this.$toast("输入为空或格式错误！");
+      //   }
+      // });
+    },
+    getBankCardList() {
+      let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+      this.$http
+        .post(
+          "/api/Trade/GetBankCardList",
+          Service.Encrypt.DataEncryption({
+            UserAccountId: user.UserAccountId
+          })
+        )
+        .then(
+          response => {
+            if (
+              response.data &&
+              response.data != null &&
+              response.data != undefined
+            ) {
+              if (response.data.Status == 100) {
+                response.data.Data.forEach(element => {
+                  if (element.Type == 0) {
+                    this.cardscolumns.push({
+                      text:
+                        element.BankName +
+                        " " +
+                        element.CardId +
+                        " " +
+                        element.AcctName,
+                      value: element
+                    });
+                  } else {
+                    this.bankcolumns.push({
+                      text:
+                        element.BankName +
+                        " " +
+                        element.CardId +
+                        " " +
+                        element.AcctName,
+                      value: element
+                    });
+                  }
+                });
+              } else {
+                this.$toast(response.data.Message);
+              }
+            } else {
+              this.$toast(response.data.Message);
+            }
+          },
+          error => {
+            console.log(error);
+          }
+        );
+    },
+    beforeClose(action, done) {
+      if (action === "confirm") {
+        setTimeout(this.onsubmit(), 1000);
+      } else {
+        done();
+      }
+    },
+    onNextClick() {
       this.$validator.validateAll().then(result => {
         if (result) {
-          this.card.sub_mer_id = this.card.acct_idcard; 
-          this.card.ord_id = Service.Convert.Dateformat(new Date(),"yyyyMMddhhmmssS");
-          this.card.check_value = EncryptService.GetCheckValue(this.card);
-          
-          let cardls = {
-            card_id: this.card.card_id,
-            mobile_no: this.card.mobile_no,
-            bank_name: this.bank_name,
-            bank_num: this.card.bank_num,
-            acct_cardno: this.card.acct_cardno,
-            acct_name: this.card.acct_name,
-            acct_idcard: this.card.acct_idcard
-          };
-          //记录信用卡缓存
-          UtilService.SetLocalStorage("cards", JSON.stringify(cardls));
-          //获取缓存用户信息
-          let user = UtilService.GetLocalStorage(Service.Enum.CGT_ALI_USER);
-          //添加交易请求
-          this.$http
-            .post(
-              "/api/Trade/AddTrade",
-              Service.Encrypt.DataEncryption({
-                TradeOrderId: this.card.ord_id,
-                Amount: this.card.trans_amt,
-                CardId: this.card.card_id,
-                MobileNo: this.card.mobile_no,
-                BankName: this.bank_name,
-                BankNum: this.card.bank_num,
-                AcctCardNo: this.card.acct_cardno,
-                AcctName: this.card.acct_name,
-                AcctIdCard: this.card.acct_idcard,
-                TradeRate: this.card.trade_rate,
-                TradeRateCode: this.trade_rate_code,
-                UserAccountId: user.UserAccountId
-              })
-            )
-            .then(
-              response => {
-                if (
-                  response.data &&
-                  response.data != null &&
-                  response.data != undefined
-                ) {
-                  
-                  if (response.data.Status == 100 && response.data.Data>0) {
-                    this.cardAsyn(this.card);
-                    this.$router.push("Submit");
-                  } else {
-                    this.$toast(response.data.Message);
-                  }
-                } else {
-                  this.$toast(response.data.Message);
-                }
-              },
-              error => {
-                this.$toast("请求失败！");
-                console.log(error);
-              }
-            );
+          this.qshow = true;
         } else {
           this.$toast("输入为空或格式错误！");
         }
       });
     }
   },
-  created(){
+  created() {
+    this.getBankCardList();
     let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
-    if(user.Memberlevel==2){
-      this.card.trade_rate=this.card.trade_rate = "4.20";
+    if (user.Memberlevel == 2) {
+      this.card.trade_rate = this.card.trade_rate = "4.20";
     }
-    if(user.Memberlevel==1){
-      this.card.trade_rate=this.card.trade_rate = "4.80";
+    if (user.Memberlevel == 1) {
+      this.card.trade_rate = this.card.trade_rate = "4.80";
     }
   },
   mounted() {
@@ -246,6 +390,17 @@ export default {
   text-align: left;
   padding-left: 29%;
   /* line-height: 24px; */
+}
+.item-content {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #666;
+}
+.van-icon-question {
+  color: #38f;
+  vertical-align: -3px;
+  margin-left: 5px;
+  font-size: 15px;
 }
 </style>
 

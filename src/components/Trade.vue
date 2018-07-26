@@ -21,7 +21,7 @@
     </van-list>
   </van-cell-group> -->
   <van-cell-group>
-    <van-nav-bar title="我的交易" left-arrow @click-left="onClickLeft"></van-nav-bar>
+    <van-nav-bar title="交易" left-arrow @click-left="onClickLeft"></van-nav-bar>
     <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="immediatecheck">
       <van-row v-for="item in list" :key="item.TradeId" :title="item + ''">
         <van-card :title="'订单号:'+item.TradeOrderId" :desc="item.BankName" :price="item.Amount">
