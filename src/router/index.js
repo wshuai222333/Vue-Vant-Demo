@@ -57,11 +57,6 @@ const routers = [{
                 component: Shop
             },
             {
-                path: "member",
-                name: "member",
-                component: Member
-            },
-            {
                 path: "propaganda",
                 name: "propaganda",
                 component: Propaganda

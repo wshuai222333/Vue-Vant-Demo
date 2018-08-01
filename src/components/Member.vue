@@ -1,5 +1,6 @@
-<template>
-    <van-tabs v-model="active">
+  <template>
+
+    <!-- <van-tabs v-model="active">
         <van-tab title="商户版">
             <van-panel title="注意事项" desc="1啊手机打开拉萨角度来看按时间段埃克设计的卢卡斯觉得">
                 <div class="card-index">
@@ -40,7 +41,7 @@
         <van-tab title="个人版">
 
         </van-tab>
-    </van-tabs>
+    </van-tabs> -->
 </template>
 
 <script>

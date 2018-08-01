@@ -9,7 +9,7 @@
     <van-radio-group v-model="radio">
       <van-row>
 
-        <van-col class="van-col-radio" offset="2" span="8">
+        <van-col class="van-col-radio" offset="2" span="10">
           <van-radio name="0">信用卡</van-radio>
         </van-col>
         <van-col class="van-col-radio" span="6">
@@ -213,121 +213,7 @@ export default {
 };
 </script>
 
-<style>
-.van-tabs {
-  position: relative;
-}
-.van-tabs__wrap {
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 99;
-  overflow: hidden;
-  position: absolute;
-}
-.van-tabs__wrap--page-top {
-  position: fixed;
-}
-.van-tabs__wrap--content-bottom {
-  top: auto;
-  bottom: 0;
-}
-.van-tabs__wrap--scrollable .van-tab {
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 22%;
-  flex: 0 0 22%;
-}
-.van-tabs__wrap--scrollable .van-tabs__nav {
-  overflow: hidden;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.van-tabs__wrap--scrollable .van-tabs__nav::-webkit-scrollbar {
-  display: none;
-}
-.van-tabs__nav {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-user-select: none;
-  user-select: none;
-  position: relative;
-  background-color: #fff;
-}
-.van-tabs__nav--line {
-  height: 100%;
-  padding-bottom: 15px;
-  box-sizing: content-box;
-}
-.van-tabs__nav--card {
-  margin: 0 15px;
-  border-radius: 2px;
-  box-sizing: border-box;
-  border: 1px solid #38f;
-  height: 30px;
-}
-.van-tabs__nav--card .van-tab {
-  color: #38f;
-  border-right: 1px solid #38f;
-  line-height: 28px;
-}
-.van-tabs__nav--card .van-tab:last-child {
-  border-right: none;
-}
-.van-tabs__nav--card .van-tab.van-tab--active {
-  color: #fff;
-  background-color: #38f;
-}
-.van-tabs__line {
-  z-index: 1;
-  left: 0;
-  bottom: 15px;
-  height: 2px;
-  position: absolute;
-  background-color: #38f;
-}
-.van-tabs--line {
-  padding-top: 44px;
-}
-.van-tabs--line .van-tabs__wrap {
-  height: 44px;
-}
-.van-tabs--card {
-  padding-top: 30px;
-}
-.van-tabs--card .van-tabs__wrap {
-  height: 30px;
-}
-.van-tab {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  flex: 1;
-  cursor: pointer;
-  padding: 0 5px;
-  font-size: 14px;
-  position: relative;
-  color: #333;
-  line-height: 44px;
-  text-align: center;
-  box-sizing: border-box;
-  background-color: #fff;
-  min-width: 0;
-}
-.van-tab span {
-  display: block;
-}
-.van-tab:active {
-  background-color: #e8e8e8;
-}
-.van-tab--active {
-  color: #38f;
-}
-.van-tab--disabled {
-  color: #c9c9c9;
-}
-.van-tab--disabled:active {
-  background-color: #fff;
-}
+<style scoped>
 .card-btn {
   font-size: 22px;
   width: 91%;

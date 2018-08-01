@@ -8,10 +8,10 @@
       <!-- <van-col offset="12" span="24"> -->
       <div class="user-background">
         <img class="user-head" src="../assets/images/头像.png" alt="" />
-        <div class="name-span" v-text="username">
-        </div>
-        <img v-if="memberlevel==2" src="../assets/images/会员等级金02.svg" />
-        <img v-if="memberlevel==1" src="../assets/images/会员等级银卡-03.svg" />
+        <strong class="name-span" v-text="username">
+        </strong>
+        <img class="user-level" src="../assets/images/会员等级0.svg" alt="" />
+        <van-progress class="user-progress" :percentage="50" />
       </div>
 
       <!-- </van-col>
@@ -36,12 +36,12 @@
 
     <van-cell-group class="user-group">
       <van-cell icon="records" title="交易" is-link to="Trade" />
-       <van-cell icon="card" title="银行卡" is-link to="CardList" />
+      <van-cell icon="card" title="银行卡" is-link to="CardList" />
     </van-cell-group>
     <van-cell-group class="user-group">
-     
+
     </van-cell-group>
-    
+
     <van-cell-group class="user-group">
       <!-- <van-cell icon="gold-coin" title="积分兑换" is-link to="Integral" /> -->
       <!-- <van-cell icon="exchange" title="我的版本" value="0.1.0"/> -->
@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       username: "",
-      memberlevel:""
+      memberlevel: ""
     };
   },
   components: {
@@ -82,34 +82,40 @@ export default {
   created() {
     let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
     this.username = user.UserName;
-    this.memberlevel =user.Memberlevel;
+    this.memberlevel = user.Memberlevel;
   }
 };
 </script>
 
 <style lang="less">
 .user {
+  &-progress {
+    margin-top: 1%;
+    margin-left: 20%;
+    width: 65%;
+    display: flex;
+    
+  }
   &-background {
-    padding-top: 10%;
-    text-align: center;
     width: 100%;
-    //background-image: url(../assets/images/timg.jpg);
-    .name-span {
-      padding: 2%;
-      color: white;
-    }
+  }
+  &-level {
+    margin-left: 3%;
   }
   &-head {
-    width: 85px;
-    height: 85px;
+    margin-top: 8%;
+    margin-left: 8%;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
+    float: left;
+    display: flex;
   }
   &-poster {
     width: 100%;
-    // height: 12rem;
-    height: 100%;
+    height: 9rem;
     display: block;
     // background-color: #38f;
     background-image: url(../assets/images/timg.png);
@@ -131,7 +137,13 @@ export default {
     }
   }
 }
-
+.name-span {
+  display: flex;
+  color: white;
+  padding-top: 10%;
+  padding-left: 3%;
+  font-size: 20px;
+}
 .card-btn {
   font-size: 22px;
   width: 91%;

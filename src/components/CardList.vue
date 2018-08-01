@@ -7,13 +7,15 @@
     <!-- <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="immediatecheck">
             <van-row v-for="item in list" :key="item.TradeId" :title="item + ''"> -->
     <van-list v-model="loading" :finished="finished" @load="onLoad">
-      <van-row v-for="item in list" :key="item" :title="item + ''">
-        <van-cell-swipe :right-width="65" :on-close="onClose(item)">
+      <van-row class="van-rowcss" v-for="item in list" :key="item" :title="item + ''">
+        <van-cell-swipe :right-width="65" :on-close="onClose(item)" class="van-cell-swipecss">
           <div class="card">
             <span class="card-forecast" v-text="item.BankName"></span>
             <span class="card-forecast-type" v-if="item.Type==0">信用卡</span>
             <span class="card-forecast-type" v-if="item.Type==1">储蓄卡</span>
-            <span class="card-cardno">**** **** ****&nbsp;<span v-text="formatter(item.CardId)"></span></span>
+            <span class="card-cardno">**** **** ****&nbsp;
+              <span v-text="formatter(item.CardId)"></span>
+            </span>
           </div>
           <span slot="right">删除</span>
         </van-cell-swipe>
@@ -39,7 +41,7 @@ export default {
   },
   methods: {
     formatter(str) {
-      return str.substr(str.length-4);
+      return str.substr(str.length - 4);
     },
     onClickLeft() {
       this.$router.push("User");
@@ -92,7 +94,7 @@ export default {
           }
         );
     },
-    deleteBankCard(item) {
+    deleteBankCard: function(item) {
       this.$http
         .post(
           "/api/Trade/DeleteBankCard",
@@ -109,6 +111,7 @@ export default {
             ) {
               if (response.data.Status == 100 && response.data.Data > 0) {
                 this.$toast("删除成功");
+                this.getBankCardList();
               } else {
                 this.$toast(response.data.Message);
               }
@@ -134,7 +137,38 @@ export default {
             Dialog.confirm({
               message: "确定删除吗？"
             }).then(() => {
-              this.deleteBankCard(item);
+              debugger;
+              this.$http
+                .post(
+                  "/api/Trade/DeleteBankCard",
+                  Service.Encrypt.DataEncryption({
+                    BankCardId: item.BankCardId
+                  })
+                )
+                .then(
+                  response => {
+                    if (
+                      response.data &&
+                      response.data != null &&
+                      response.data != undefined
+                    ) {
+                      if (
+                        response.data.Status == 100 &&
+                        response.data.Data > 0
+                      ) {
+                        this.$toast("删除成功");
+                      } else {
+                        this.$toast(response.data.Message);
+                      }
+                    } else {
+                      this.$toast(response.data.Message);
+                    }
+                  },
+                  error => {
+                    this.$toast("请求失败！");
+                    console.log(error);
+                  }
+                );
               instance.close();
             });
             break;
@@ -146,7 +180,7 @@ export default {
 </script>
 
 <style lang="less">
-.van-row {
+.van-rowcss {
   width: 84%;
   margin: 0 auto;
 }

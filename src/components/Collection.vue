@@ -42,7 +42,7 @@
     <van-field name='draw_fee' label="手续费" :value="card.draw_fee+'元'" error required readonly="readonly"></van-field>
     <van-field name='trade_rate_code' label="优惠码" v-model="trade_rate_code" placeholder="请输入优惠码" icon="clear"></van-field>
 
-    <van-button bottom-action class="card-btn" @click="onsubmit">
+    <van-button bottom-action class="card-btn" @click="onNextClick">
       下一步
     </van-button>
 
@@ -69,7 +69,7 @@
       <van-picker title="选择信用卡" :columns="cardscolumns" :show-toolbar="true" @cancel="onCardCancel" @confirm="onCardConfirm" :visible-item-count="10"></van-picker>
     </van-popup>
 
-    <van-popup v-model="bshow">
+    <van-popup v-model="bshow" position="bottom">
       <van-picker position="选择收款储蓄卡" :columns="bankcolumns" :show-toolbar="true" @cancel="onBankCancel" @confirm="onBankConfirm" :visible-item-count="10"></van-picker>
     </van-popup>
 
@@ -216,8 +216,8 @@ export default {
     },
     ...mapActions(["cardAsyn"]),
     onsubmit: function() {
-      // this.$validator.validateAll().then(result => {
-      //   if (result) {
+      let user = UtilService.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+      this.card.mer_priv = user.UserAccountId;
       this.card.sub_mer_id = this.card.acct_idcard;
       this.card.ord_id = Service.Convert.Dateformat(
         new Date(),
@@ -236,8 +236,7 @@ export default {
       };
       //记录信用卡缓存
       UtilService.SetLocalStorage("cards", JSON.stringify(cardls));
-      //获取缓存用户信息
-      let user = UtilService.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+
       //添加交易请求
       this.$http
         .post(
@@ -279,10 +278,6 @@ export default {
             console.log(error);
           }
         );
-      //   } else {
-      //     this.$toast("输入为空或格式错误！");
-      //   }
-      // });
     },
     getBankCardList() {
       let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);

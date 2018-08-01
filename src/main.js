@@ -38,10 +38,11 @@ import {
     Dialog,
     CellSwipe,
     Collapse,
-    CollapseItem
+    CollapseItem,
+    Progress
 } from 'vant';
 
-Vue.use(NavBar).use(Tabbar).use(TabbarItem).use(Tab).use(Tabs).use(Panel).use(Row).use(Col).use(Button).use(Card).use(NoticeBar).use(Field).use(Picker).use(Toast).use(Cell).use(CellGroup).use(Swipe).use(SwipeItem).use(Actionsheet).use(Popup).use(Icon).use(List).use(Search).use(Step).use(Steps).use(Checkbox).use(CheckboxGroup).use(RadioGroup).use(Radio).use(Dialog).use(CellSwipe).use(Collapse).use(CollapseItem);
+Vue.use(NavBar).use(Tabbar).use(TabbarItem).use(Tab).use(Tabs).use(Panel).use(Row).use(Col).use(Button).use(Card).use(NoticeBar).use(Field).use(Picker).use(Toast).use(Cell).use(CellGroup).use(Swipe).use(SwipeItem).use(Actionsheet).use(Popup).use(Icon).use(List).use(Search).use(Step).use(Steps).use(Checkbox).use(CheckboxGroup).use(RadioGroup).use(Radio).use(Dialog).use(CellSwipe).use(Collapse).use(CollapseItem).use(Progress);
 
 Vue.config.productionTip = false
     //http请求
