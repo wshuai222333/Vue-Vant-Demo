@@ -165,6 +165,12 @@ const routers = [{
         name: "addCard",
         component: AddCard
 
+    },
+    {
+        path: "/member",
+        name: "member",
+        component: Member
+
     }
 ];
 

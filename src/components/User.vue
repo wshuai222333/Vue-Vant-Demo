@@ -16,8 +16,8 @@
         <img v-if="memberlevel==3" class="user-level" src="../assets/images/会员等级3.svg" alt="" />
         <img v-if="memberlevel==4" class="user-level" src="../assets/images/会员等级4.svg" alt="" />
         <img v-if="memberlevel==5" class="user-level" src="../assets/images/会员等级5.svg" alt="" />
-        <van-progress class="user-progress" :percentage="formateintegral" :pivot-text="integral" />
-        <van-icon class="user-icon" name="question" color="white" @mouseover="overTishi" />
+        <van-progress class="user-progress" :percentage="formateintegral" :pivot-text="integraltxt" />
+        <van-icon class="user-icon" name="question" color="white" @click="overTishi" />
       </div>
 
       <!-- </van-col>
@@ -46,7 +46,7 @@
     </van-cell-group>
     <van-cell-group class="user-group">
 
-    </van-cell-group>
+    </van-cell-group>`
 
     <van-cell-group class="user-group">
       <!-- <van-cell icon="gold-coin" title="积分兑换" is-link to="Integral" /> -->
@@ -70,8 +70,9 @@ export default {
     return {
       username: "",
       memberlevel: "",
-      percentage: 50,
-      integral: "111"
+      percentage: 0,
+      integral: 0,
+      integraltxt: ""
     };
   },
   components: {
@@ -87,10 +88,10 @@ export default {
       this.$router.push("/login");
     },
     overTishi() {
+      //this.$router.push("Member");
       this.$toast({
-        message: "积分越高对应的费率会越低",
-        position: "top",
-        duration: 5000
+        message: "交易1000元=1积分 等级越高费率越低",
+        position:"top"
       });
     },
     getUser() {
@@ -116,8 +117,6 @@ export default {
                   Service.Enum.CGT_ALI_USER,
                   JSON.stringify(response.data.Data)
                 );
-
-                this.username = user.UserName;
                 this.memberlevel = user.Memberlevel;
                 this.integral = user.Integral;
               } else {
@@ -134,13 +133,16 @@ export default {
         );
     }
   },
-  created() {
+  mounted() {
+    let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+    this.username = user.UserName;
     this.getUser();
+    this.integraltxt = "" + this.integral + "";
   },
   computed: {
-    formateintegral() {
+    formateintegral: function() {
       if (this.memberlevel == 0) {
-        return this.integral / 100 * 100;
+        return this.integral / 10 * 100;
       } else if (this.memberlevel == 1) {
         return this.integral / 500 * 100;
       } else if (this.memberlevel == 2) {
