@@ -10,8 +10,14 @@
         <img class="user-head" src="../assets/images/头像.png" alt="" />
         <strong class="name-span" v-text="username">
         </strong>
-        <img class="user-level" src="../assets/images/会员等级0.svg" alt="" />
-        <van-progress class="user-progress" :percentage="50" />
+        <img v-if="memberlevel==0" class="user-level" src="../assets/images/会员等级0.svg" alt="" />
+        <img v-if="memberlevel==1" class="user-level" src="../assets/images/会员等级1.svg" alt="" />
+        <img v-if="memberlevel==2" class="user-level" src="../assets/images/会员等级2.svg" alt="" />
+        <img v-if="memberlevel==3" class="user-level" src="../assets/images/会员等级3.svg" alt="" />
+        <img v-if="memberlevel==4" class="user-level" src="../assets/images/会员等级4.svg" alt="" />
+        <img v-if="memberlevel==5" class="user-level" src="../assets/images/会员等级5.svg" alt="" />
+        <van-progress class="user-progress" :percentage="formateintegral" :pivot-text="integral" />
+        <van-icon class="user-icon" name="question" color="white" @mouseover="overTishi" />
       </div>
 
       <!-- </van-col>
@@ -63,7 +69,9 @@ export default {
   data() {
     return {
       username: "",
-      memberlevel: ""
+      memberlevel: "",
+      percentage: 50,
+      integral: "111"
     };
   },
   components: {
@@ -77,12 +85,76 @@ export default {
     loginout() {
       Service.Util.RemoveLocalStorage(Service.Enum.CGT_ALI_USER);
       this.$router.push("/login");
+    },
+    overTishi() {
+      this.$toast({
+        message: "积分越高对应的费率会越低",
+        position: "top",
+        duration: 5000
+      });
+    },
+    getUser() {
+      let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+      this.$http
+        .post(
+          "/api/User/UserLogin",
+          Service.Encrypt.DataEncryption({
+            UserAccountId: user.UserAccountId
+          })
+        )
+        .then(
+          response => {
+            if (
+              response.data &&
+              response.data != null &&
+              response.data != undefined
+            ) {
+              if (response.data.Status == 100) {
+                response.data.Data.userPwd = null;
+                // Service.Util.SetLocalStorage(Service.Enum.CGT_ALI_USER, "");
+                Service.Util.SetLocalStorage(
+                  Service.Enum.CGT_ALI_USER,
+                  JSON.stringify(response.data.Data)
+                );
+
+                this.username = user.UserName;
+                this.memberlevel = user.Memberlevel;
+                this.integral = user.Integral;
+              } else {
+                this.$toast(response.data.Message);
+              }
+            } else {
+              this.$toast(response.data.Message);
+            }
+          },
+          error => {
+            this.$toast("请求失败！");
+            console.log(error);
+          }
+        );
     }
   },
   created() {
-    let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
-    this.username = user.UserName;
-    this.memberlevel = user.Memberlevel;
+    this.getUser();
+  },
+  computed: {
+    formateintegral() {
+      if (this.memberlevel == 0) {
+        return this.integral / 100 * 100;
+      } else if (this.memberlevel == 1) {
+        return this.integral / 500 * 100;
+      } else if (this.memberlevel == 2) {
+        return this.integral / 1000 * 100;
+      } else if (this.memberlevel == 3) {
+        return this.integral / 2000 * 100;
+      } else if (this.memberlevel == 4) {
+        return this.integral / 5000 * 100;
+      } else if (this.memberlevel == 4) {
+        return this.integral / 100000 * 100;
+      } else {
+        return 0;
+      }
+    }
   }
 };
 </script>
@@ -90,17 +162,17 @@ export default {
 <style lang="less">
 .user {
   &-progress {
-    margin-top: 1%;
-    margin-left: 20%;
-    width: 65%;
+    margin: 8px 8px;
+    width: 55%;
     display: flex;
-    
+    float: left;
   }
   &-background {
     width: 100%;
   }
   &-level {
-    margin-left: 3%;
+    padding-left: 2%;
+    display: flex;
   }
   &-head {
     margin-top: 8%;

@@ -351,11 +351,23 @@ export default {
   created() {
     this.getBankCardList();
     let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
-    if (user.Memberlevel == 2) {
-      this.card.trade_rate = this.card.trade_rate = "4.20";
+    if (user.Memberlevel == 0) {
+      this.card.trade_rate = this.card.trade_rate = "6.00";
     }
     if (user.Memberlevel == 1) {
-      this.card.trade_rate = this.card.trade_rate = "4.80";
+      this.card.trade_rate = this.card.trade_rate = "5.80";
+    }
+    if (user.Memberlevel == 2) {
+      this.card.trade_rate = this.card.trade_rate = "5.40";
+    }
+    if (user.Memberlevel == 3) {
+      this.card.trade_rate = this.card.trade_rate = "5.00";
+    }
+    if (user.Memberlevel == 4) {
+      this.card.trade_rate = this.card.trade_rate = "4.60";
+    }
+    if (user.Memberlevel == 5) {
+      this.card.trade_rate = this.card.trade_rate = "4.20";
     }
   },
   mounted() {
