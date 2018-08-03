@@ -16,8 +16,10 @@
         <img v-if="memberlevel==3" class="user-level" src="../assets/images/会员等级3.svg" alt="" />
         <img v-if="memberlevel==4" class="user-level" src="../assets/images/会员等级4.svg" alt="" />
         <img v-if="memberlevel==5" class="user-level" src="../assets/images/会员等级5.svg" alt="" />
-        <van-progress class="user-progress" :percentage="formateintegral" :pivot-text="integraltxt" />
+        <van-tag class="user-tag" mark type="danger" v-text="formatemaxintegral"></van-tag>
         <van-icon class="user-icon" name="question" color="white" @click="overTishi" />
+        <van-progress class="user-progress" :percentage="formateintegral" :pivot-text="integraltxt" />
+
       </div>
 
       <!-- </van-col>
@@ -91,7 +93,7 @@ export default {
       //this.$router.push("Member");
       this.$toast({
         message: "交易1000元=1积分 等级越高费率越低",
-        position:"top"
+        position: "top"
       });
     },
     getUser() {
@@ -119,6 +121,7 @@ export default {
                 );
                 this.memberlevel = user.Memberlevel;
                 this.integral = user.Integral;
+                this.integraltxt = "" + user.Integral + "";
               } else {
                 this.$toast(response.data.Message);
               }
@@ -137,12 +140,12 @@ export default {
     let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
     this.username = user.UserName;
     this.getUser();
-    this.integraltxt = "" + this.integral + "";
+    
   },
   computed: {
     formateintegral: function() {
       if (this.memberlevel == 0) {
-        return this.integral / 10 * 100;
+        return this.integral / 100 * 100;
       } else if (this.memberlevel == 1) {
         return this.integral / 500 * 100;
       } else if (this.memberlevel == 2) {
@@ -151,10 +154,28 @@ export default {
         return this.integral / 2000 * 100;
       } else if (this.memberlevel == 4) {
         return this.integral / 5000 * 100;
-      } else if (this.memberlevel == 4) {
-        return this.integral / 100000 * 100;
+      } else if (this.memberlevel == 5) {
+        return this.integral / 50000 * 100;
       } else {
         return 0;
+      }
+    },
+    formatemaxintegral: function() {
+      if (this.memberlevel == 0) {
+        return "还需"+(100 - this.integral)+"可升级";
+        // return this.integral+"可升级";
+      } else if (this.memberlevel == 1) {
+        return "还需"+(500 - this.integral)+"可升级";
+      } else if (this.memberlevel == 2) {
+        return "还需"+(1000 - this.integral)+"可升级";
+      } else if (this.memberlevel == 3) {
+        return "还需"+(2000 - this.integral)+"可升级";
+      } else if (this.memberlevel == 4) {
+       return "还需"+(5000 - this.integral)+"可升级";
+      } else if (this.memberlevel == 5) {
+        return "还需0可升级";
+      } else {
+        return "还需0可升级";
       }
     }
   }
@@ -163,18 +184,25 @@ export default {
 
 <style lang="less">
 .user {
+  &-icon{
+    
+  }
+  &-tag {
+    margin-left: 20%;
+  }
   &-progress {
-    margin: 8px 8px;
+    margin: 8px 30%;
     width: 55%;
     display: flex;
-    float: left;
+    //float: left;
   }
   &-background {
     width: 100%;
   }
   &-level {
     padding-left: 2%;
-    display: flex;
+    // display: flex;
+    // float: left;
   }
   &-head {
     margin-top: 8%;
@@ -191,7 +219,6 @@ export default {
     width: 100%;
     height: 9rem;
     display: block;
-    // background-color: #38f;
     background-image: url(../assets/images/timg.png);
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -214,9 +241,14 @@ export default {
 .name-span {
   display: flex;
   color: white;
-  padding-top: 10%;
+  padding-top: 8%;
   padding-left: 3%;
   font-size: 20px;
+}
+.font-span {
+  color: white;
+  font-size: 15px;
+  padding: 3px;
 }
 .card-btn {
   font-size: 22px;
