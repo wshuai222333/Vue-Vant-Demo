@@ -66,6 +66,7 @@ export default {
             "/api/Trade/GetTradeList",
             Service.Encrypt.DataEncryption({
               UserAccountId: user.UserAccountId,
+              State:-1,
               pageindex: this.index,
               pagesize: 10
             })

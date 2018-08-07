@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <transition name="transitionRouter">
+    <transition name="van-slide-bottom">
       <router-view></router-view>
     </transition>
   </div>

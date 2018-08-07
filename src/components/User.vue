@@ -100,8 +100,8 @@ export default {
       let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
       this.$http
         .post(
-          "/api/User/UserLogin",
-          Service.Encrypt.DataEncryption({
+           "/api/User/UserLogin",
+           Service.Encrypt.DataEncryption({
             UserAccountId: user.UserAccountId
           })
         )
