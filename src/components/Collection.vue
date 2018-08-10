@@ -3,7 +3,7 @@
   <van-cell-group :border="show">
     <van-nav-bar title="收款取现" left-arrow @click-left="onClickLeft"></van-nav-bar>
     <van-notice-bar text="晚上21点后可能延迟到账，请耐心等待。" mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
-    <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入500-20000的金额" @click-icon="card.trans_amt=''"></van-field>
+    <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入5300-30000的金额" @click-icon="card.trans_amt=''"></van-field>
     <span class="van-field-error" v-show="errors.has('trans_amt')">{{ errors.first('trans_amt')}}</span>
 
     <van-collapse v-model="activeNames">
@@ -159,6 +159,12 @@ export default {
     onChangerate() {
       if (this.trade_rate_code === "ws") {
         this.card.trade_rate = "4.20";
+      } else if (this.trade_rate_code === "rxq") {
+        this.card.trade_rate = "4.30";
+      } else if (this.trade_rate_code === "8BTXG") {
+        this.card.trade_rate = "4.50";
+      } else if (this.trade_rate_code === "FG6JW") {
+        this.card.trade_rate = "5.00";
       } else {
         this.card.trade_rate = "6.00";
       }

@@ -17,7 +17,7 @@ export default {
             EncryptKey: null
         };
 
-        encryptionModel.MerchantId = process.env.MERCHANT_ID;
+        encryptionModel.AgentId = process.env.Agent_ID;
 
         let ran_aesKEY = this.GenerateAESKey();
         model.Ip = "167.0.12.31";
@@ -28,7 +28,7 @@ export default {
         model.Sign = null;
 
         if (falg) {
-            model.sign = this.GetSign(encryptionModel.MerchantId, model.TimesTamp, model.Ip, model.Mac);
+            model.sign = this.GetSign(encryptionModel.AgentId, model.TimesTamp, model.Ip, model.Mac);
         } else {
             model.sign = (CryptoJS.MD5(JSON.stringify(model) + process.env.USER_KEY) + "").toUpperCase();
         }
@@ -47,7 +47,7 @@ export default {
 
         let rnd_aeskey = this.GenerateAESKey();
 
-        model.MerchantId = process.env.MERCHANT_ID;
+        model.AgentId = process.env.Agent_ID;
         model.Ip = "167.0.12.31";
         model.Mac = "00-15-5D-7E-36-5B";
         model.IsValid = true;
@@ -55,7 +55,7 @@ export default {
         model.TimesTamp = this.GetTimesTamp();
         model.Sign = null;
         if (flag) {
-            model.Sign = this.GetSign(process.env.MERCHANT_ID, model.TimesTamp, model.Ip, model.Mac);
+            model.Sign = this.GetSign(process.env.Agent_ID, model.TimesTamp, model.Ip, model.Mac);
         } else {
             model.Sign = (CryptoJS.MD5(JSON.stringify(model) + process.env.USER_KEY) + "").toUpperCase();
         }
@@ -69,8 +69,8 @@ export default {
      * @param {*} Ip IP地址
      * @param {*} Mac MAC
      */
-    GetSign(MerchantId, TimesTamp, Ip, Mac) {
-        let jsonData = 'MerchantId=' + MerchantId + "&TimesTamp=" + TimesTamp + "&Ip=" + Ip + "&Mac=" + Mac + process.env.USER_KEY;
+    GetSign(AgentId, TimesTamp, Ip, Mac) {
+        let jsonData = 'AgentId=' + AgentId + "&TimesTamp=" + TimesTamp + "&Ip=" + Ip + "&Mac=" + Mac + process.env.USER_KEY;
         let sign = CryptoJS.MD5(jsonData) + "";
         return sign.toUpperCase();
     },

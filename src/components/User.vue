@@ -48,8 +48,7 @@
     </van-cell-group>
     <van-cell-group class="user-group">
 
-    </van-cell-group>`
-
+    </van-cell-group>
     <van-cell-group class="user-group">
       <!-- <van-cell icon="gold-coin" title="积分兑换" is-link to="Integral" /> -->
       <!-- <van-cell icon="exchange" title="我的版本" value="0.1.0"/> -->
