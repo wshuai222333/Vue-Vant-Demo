@@ -1,27 +1,7 @@
 <template>
-  <!-- <van-cell-group>
-    <van-nav-bar title="我的交易" left-arrow @click-left="onClickLeft"></van-nav-bar>
-    <van-row>
-      <van-col class="van-row-title" span="2"><strong>订单号</strong></van-col>
-      <van-col class="van-row-title" span="4"><strong>金额</strong></van-col>
-      <van-col class="van-row-title" span="4"><strong>付款银行</strong></van-col>
-      <van-col class="van-row-title" span="6"><strong>到账时间</strong></van-col>
-      <van-col class="van-row-title" span="6"><strong>状态</strong></van-col>
-    </van-row>
-    <van-list v-model="loading" :finished="finished" @load="onLoad">
-   
-      <van-row v-for="item in list" :key="item" :title="item + ''">
-        <van-col span="2">123123123</van-col>
-        <van-col span="6">6200</van-col>
-        <van-col span="6">工商银行</van-col>
-        <van-col span="10">2018-06-28</van-col>
-         <van-col span="10">已完成</van-col>
-      </van-row>
-     
-    </van-list>
-  </van-cell-group> -->
   <van-cell-group>
     <van-nav-bar title="交易" left-arrow @click-left="onClickLeft"></van-nav-bar>
+    <van-notice-bar text="由于交易数据量过大,会定期清除未完成订单数据,请谅解." mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
     <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="immediatecheck">
       <van-row v-for="item in list" :key="item.TradeId" :title="item + ''">
         <van-card :title="'订单号:'+item.TradeOrderId" :desc="item.BankName" :price="item.Amount">
@@ -60,13 +40,12 @@ export default {
         //获取缓存用户信息
         let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
 
-     
         this.$http
           .post(
             "/api/Trade/GetTradeList",
             Service.Encrypt.DataEncryption({
               UserAccountId: user.UserAccountId,
-              State:-1,
+              State: -1,
               pageindex: this.index,
               pagesize: 10
             })

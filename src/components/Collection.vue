@@ -3,7 +3,7 @@
   <van-cell-group :border="show">
     <van-nav-bar title="收款取现" left-arrow @click-left="onClickLeft"></van-nav-bar>
     <van-notice-bar text="晚上21点后可能延迟到账，请耐心等待。" mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
-    <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入5300-30000的金额" @click-icon="card.trans_amt=''"></van-field>
+    <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入300-20000的金额" @click-icon="card.trans_amt=''"></van-field>
     <span class="van-field-error" v-show="errors.has('trans_amt')">{{ errors.first('trans_amt')}}</span>
 
     <van-collapse v-model="activeNames">
@@ -347,7 +347,11 @@ export default {
     onNextClick() {
       this.$validator.validateAll().then(result => {
         if (result) {
-          this.qshow = true;
+          if (this.card.trans_amt < 300) {
+            this.$toast("交易金额不能小于300");
+          } else {
+            this.qshow = true;
+          }
         } else {
           this.$toast("输入为空或格式错误！");
         }

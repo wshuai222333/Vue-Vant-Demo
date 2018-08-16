@@ -41,7 +41,7 @@ export default {
                 response.data != null &&
                 response.data != undefined
               ) {
-                debugger;
+                
                 if (response.data.Status == 100 && response.data.Data > 0) {
                   this.$toast("提交成功");
                   this.$router.push("User");
