@@ -13,8 +13,7 @@
     <van-button bottom-action class="card-btn" :loading="btnloding" @click="onSubmit">
       完成
     </van-button>
-
-  </van-cell-group>
+</van-cell-group>
 
 </template>
 

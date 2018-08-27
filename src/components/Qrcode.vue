@@ -1,11 +1,11 @@
 <template>
-    <div>
-        <van-nav-bar title="向商户付款" left-arrow @click-left="onClickLeft"></van-nav-bar>
-        <div class="wrap">
+  <div>
+    <van-nav-bar title="二维码付款" left-arrow @click-left="onClickLeft"></van-nav-bar>
+    <div class="wrap">
 
-            <div class="btn-wrap" id="qrcode"></div>
-        </div>
+      <div class="btn-wrap" id="qrcode"></div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ import QRCode from "qrcodejs2";
 export default {
   data() {
     return {
-      bannerUrl: "http://www.baidu.com"
+      bannerUrl: "http://www.hemiv.cn/QrcodeCollection?Id=111011"
     };
   },
   methods: {
@@ -23,16 +23,26 @@ export default {
     },
     qrcode() {
       let qrcode = new QRCode("qrcode", {
-        width: 250,
-        height: 250, // 高度
+        width: 300,
+        height: 300, // 高度
         text: this.bannerUrl // 二维码内容
         //render: 'table' // 设置渲染方式（有两种方式 table和canvas，默认是canvas）
         // background: '#f0f'
         // foreground: '#ff0'
       });
       console.log(qrcode);
+    },
+    getQueryString(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) return decodeURI(r[2]);
+      return null;
     }
   },
+  // created(){
+  //   var id =getQueryString(Id); 
+  //   alert(id);
+  // },
   mounted() {
     this.qrcode();
   }
@@ -42,14 +52,13 @@ export default {
 .wrap {
   width: 100%;
   height: 100%;
+}
+.btn-wrap {
+  padding: 56px;
+  width: 260px;
+  height: 260px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #38f;
-}
-.btn-wrap {
-  padding: 50px;
-  width: 260px;
-  height: 260px;
 }
 </style>

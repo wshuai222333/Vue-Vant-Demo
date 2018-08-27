@@ -20,10 +20,10 @@
     </van-field>
     <span class="van-field-error" v-show="errors.has('card_id')">{{ errors.first('card_id')}}</span>
 
-    <van-field name='mobile_no' v-validate="'required|phone'" v-model="card.mobile_no" label="预留手机号" placeholder="请输入银行预留手机号" icon="clear" @click-icon="card.mobile_no=''" />
+    <van-field name='mobile_no' v-validate="'required|phone'" v-model="card.mobile_no" label="预留手机号" placeholder="请输入信用卡银行预留手机号" icon="clear" @click-icon="card.mobile_no=''" />
     <span class="van-field-error" v-show="errors.has('mobile_no')">{{ errors.first('mobile_no')}}</span>
 
-    <van-field v-model="bank_name" label="选择银行" placeholder="选择银行" readonly="readonly" @click="onClick()">
+    <van-field v-model="bank_name" label="选择收款银行" placeholder="选择收款银行" readonly="readonly" @click="onClick()">
       <van-icon slot="icon" name="add-o" @click="onClick()" />
     </van-field>
 
@@ -259,7 +259,8 @@ export default {
             AcctIdCard: this.card.acct_idcard,
             TradeRate: this.card.trade_rate,
             TradeRateCode: this.trade_rate_code,
-            UserAccountId: user.UserAccountId
+            UserAccountId: user.UserAccountId,
+            Rate : this.card.trade_rate
           })
         )
         .then(
@@ -348,8 +349,12 @@ export default {
       this.$validator.validateAll().then(result => {
         if (result) {
           if (this.card.trans_amt < 300) {
-            this.$toast("交易金额不能小于300");
-          } else {
+            this.$toast("单笔交易金额不能小于300");
+          } 
+          else if(this.card.trans_amt > 20000){
+            this.$toast("单笔交易金额不能大于20000");
+          }
+          else {
             this.qshow = true;
           }
         } else {

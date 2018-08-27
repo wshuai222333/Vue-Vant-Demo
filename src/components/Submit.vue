@@ -65,7 +65,7 @@ export default {
     this.acct_cardno = this.cards.acct_cardno;
     this.acct_name = this.cards.acct_name;
     this.acct_idcard = this.cards.acct_idcard;
-    this.trade_rate = this.cards.trade_rate;
+    this.trade_rate = Number(this.cards.trade_rate).toFixed(2);
     this.sub_mer_id = this.cards.sub_mer_id;
 
     this.bank_num = this.cards.bank_num;

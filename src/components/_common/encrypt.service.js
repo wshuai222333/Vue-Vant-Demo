@@ -166,6 +166,6 @@ export default {
      */
     GetCheckValue(card) {
         debugger;
-        return CryptoJS.MD5(card.version + card.cust_id + card.ord_id + card.sub_mer_id + card.subject + card.gate_id + Number(card.trans_amt).toFixed(2) + card.card_id + card.mobile_no + card.acct_name + card.acct_idcard + card.bank_num + card.acct_cardno + card.trade_rate + card.draw_fee + card.ret_url + card.bg_ret_url + card.mer_priv + card.extension + "2808618585792A6BE6C1DCDED39C3684") + "";
+        return CryptoJS.MD5(card.version + card.cust_id + card.ord_id + card.sub_mer_id + card.subject + card.gate_id + Number(card.trans_amt).toFixed(2) + card.card_id + card.mobile_no + card.acct_name + card.acct_idcard + card.bank_num + card.acct_cardno + Number(card.trade_rate).toFixed(2) + card.draw_fee + card.ret_url + card.bg_ret_url + card.mer_priv + card.extension + "2808618585792A6BE6C1DCDED39C3684") + "";
     }
 }

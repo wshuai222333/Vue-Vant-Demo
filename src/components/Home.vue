@@ -16,9 +16,9 @@
                             <img src="../assets/images/收款.svg" />
                         </van-col>
                     </router-link>
-                    <router-link to="Forward">
+                    <router-link to="Qrcode">
                         <van-col class="home-van-cell-group-cell-item" span="6">
-                            <img src="../assets/images/返利.svg" />
+                            <img src="../assets/images/二维码.svg" />
                         </van-col>
                     </router-link>
                     <router-link to="Forward">
@@ -37,7 +37,7 @@
                         <span>收款取现</span>
                     </van-col>
                     <van-col class="home-van-cell-group-cell-item" span="6">
-                        <span>申卡返利</span>
+                        <span>二维码</span>
                     </van-col>
                     <van-col class="home-van-cell-group-cell-item" span="6">
                         <span>优惠信息</span>
