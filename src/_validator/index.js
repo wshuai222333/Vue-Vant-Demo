@@ -103,7 +103,7 @@ export default {
         });
         Validator.extend('numberaftertwo', {
             getMessage: function() {
-                return "*小数点后两位数字！例如：输入4.50或5.50"
+                return "*小数点后两位以内数字！例如：输入4.50或5.50"
             },
             validate: function(value) {
                 return /^(^[1-9](\d+)?(\.\d{1,2})?$)|(^0$)|(^\d\.\d{1,2}$)$/.test(value);

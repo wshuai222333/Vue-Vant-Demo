@@ -1,12 +1,20 @@
 <template>
-    <van-cell-group :border="show">
-        <van-nav-bar title="我的费率" left-arrow @click-left="onClickLeft"></van-nav-bar>
-        <van-field name='rate' v-validate="'required|numberaftertwo'" v-model="rate" label="二维码费率" placeholder="请输入小数点两位以内数字" />
-        <span class="van-field-error" v-show="errors.has('rate')">{{ errors.first('rate')}}</span>
-        <van-button bottom-action class="card-btn" :loading="btnloding" @click="onSubmit">
-            提交
-        </van-button>
-    </van-cell-group>
+  <van-cell-group :border="show">
+    <van-nav-bar title="我的费率" left-arrow @click-left="onClickLeft"></van-nav-bar>
+     <van-collapse v-model="activeNames">
+      <van-collapse-item name="1">
+        <div slot="title">费率提示
+          <van-icon name="question" />
+        </div>
+        <span class="item-content">单位为千分之一(‰),输入小数点后两位以内数字,例如：输入4或4.5或4.55,费率不能小于平台协议费率或大于10‰费率</span>
+      </van-collapse-item>
+    </van-collapse>
+    <van-field name='rate' v-validate="'required|numberaftertwo'" v-model="rate" label="二维码费率" placeholder="请输入小数点后两位以内数字" />
+    <span class="van-field-error" v-show="errors.has('rate')">{{ errors.first('rate')}}</span>
+    <van-button bottom-action class="card-btn" :loading="btnloding" @click="onSubmit">
+      提交
+    </van-button>
+  </van-cell-group>
 </template>
 
 <script>
@@ -16,7 +24,8 @@ export default {
     return {
       show: false,
       btnloding: false,
-      rate: "5.00"
+      rate: "5.00",
+      activeNames: ['1'],
     };
   },
   methods: {
@@ -25,15 +34,12 @@ export default {
     },
     onSubmit() {
       this.btnloding = true;
-
       let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
       if (this.rate > 10) {
         this.$toast("费率不能大于10.00");
-      }
-      else if(this.rate<user.Rate){
+      } else if (this.rate < user.Rate) {
         this.$toast("费率不能小于协议费率");
-      }
-       else {
+      } else {
         this.$validator.validateAll().then(result => {
           if (result) {
             this.$http
@@ -71,13 +77,13 @@ export default {
             this.$toast("输入为空或格式错误！");
           }
         });
-        this.btnloding = false;
       }
+      this.btnloding = false;
     }
   },
-  mounted(){
-      let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
-      this.rate = user.UserRate;
+  mounted() {
+    let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+    this.rate = user.UserRate;
   }
 };
 </script>
@@ -96,5 +102,16 @@ export default {
   text-align: left;
   padding-left: 29%;
   /* line-height: 24px; */
+}
+.item-content {
+  font-size: 13px;
+  line-height: 1.5;
+  color: red;
+}
+.van-icon-question {
+  color: #38f;
+  vertical-align: -3px;
+  margin-left: 5px;
+  font-size: 15px;
 }
 </style>

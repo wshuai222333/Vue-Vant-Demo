@@ -112,7 +112,7 @@ export default {
 
 .tag-cell {
   background-color: #fafafa;
-  font-size: 12px;
+  font-size: 13px;
   padding: 0 0;
 }
 </style>

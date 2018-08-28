@@ -1,81 +1,81 @@
 <template>
-    <van-cell-group :border="show">
-        <van-notice-bar text="晚上21点后可能延迟到账，请耐心等待。" mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
-        <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入300-20000的金额" @click-icon="card.trans_amt=''"></van-field>
-        <span class="van-field-error" v-show="errors.has('trans_amt')">{{ errors.first('trans_amt')}}</span>
+  <van-cell-group :border="show">
+    <van-notice-bar text="晚上21点后可能延迟到账，请耐心等待。" mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
+    <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入300-20000的金额" @click-icon="card.trans_amt=''"></van-field>
+    <span class="van-field-error" v-show="errors.has('trans_amt')">{{ errors.first('trans_amt')}}</span>
 
-        <van-collapse v-model="activeNames">
-            <van-collapse-item name="1">
-                <div slot="title">限额提示
-                    <van-icon name="question" />
-                </div>
-                <span class="item-content">除建行单笔限额在1万，其他银行单笔限额为2万，单卡日累计5万限额</span>
-            </van-collapse-item>
-        </van-collapse>
+    <van-collapse v-model="activeNames">
+      <van-collapse-item name="1">
+        <div slot="title">限额提示
+          <van-icon name="question" />
+        </div>
+        <span class="item-content">除建行单笔限额在1万，其他银行单笔限额为2万，单卡日累计5万限额</span>
+      </van-collapse-item>
+    </van-collapse>
 
-        <van-field name='card_id' v-validate="'required|digital'" v-model="card.card_id" label="信用卡号" placeholder="请输入银行卡号">
+    <van-field name='card_id' v-validate="'required|digital'" v-model="card.card_id" label="信用卡号" placeholder="请输入银行卡号">
 
-        </van-field>
-        <span class="van-field-error" v-show="errors.has('card_id')">{{ errors.first('card_id')}}</span>
+    </van-field>
+    <span class="van-field-error" v-show="errors.has('card_id')">{{ errors.first('card_id')}}</span>
 
-        <van-field name='mobile_no' v-validate="'required|phone'" v-model="card.mobile_no" label="预留手机号" placeholder="请输入信用卡银行预留手机号" icon="clear" @click-icon="card.mobile_no=''" />
-        <span class="van-field-error" v-show="errors.has('mobile_no')">{{ errors.first('mobile_no')}}</span>
+    <van-field name='mobile_no' v-validate="'required|phone'" v-model="card.mobile_no" label="预留手机号" placeholder="请输入信用卡银行预留手机号" icon="clear" @click-icon="card.mobile_no=''" />
+    <span class="van-field-error" v-show="errors.has('mobile_no')">{{ errors.first('mobile_no')}}</span>
 
-        <van-field v-model="bank_name" label="选择收款银行" placeholder="选择收款银行" readonly="readonly" @click="onClick()">
-            <van-icon slot="icon" name="add-o" @click="onClick()" />
-        </van-field>
+    <van-field v-model="bank_name" label="选择收款银行" placeholder="选择收款银行" readonly="readonly" @click="onClick()">
+      <van-icon slot="icon" name="add-o" @click="onClick()" />
+    </van-field>
 
-        <van-field name='acct_cardno' v-validate="'required|digital'" v-model="card.acct_cardno" label="收款银行卡号" placeholder="只可以是借记卡">
+    <van-field name='acct_cardno' v-validate="'required|digital'" v-model="card.acct_cardno" label="收款银行卡号" placeholder="只可以是借记卡">
 
-        </van-field>
-        <span class="van-field-error" v-show="errors.has('acct_cardno')">{{ errors.first('acct_cardno')}}</span>
+    </van-field>
+    <span class="van-field-error" v-show="errors.has('acct_cardno')">{{ errors.first('acct_cardno')}}</span>
 
-        <van-field name='acct_name' v-validate="'required|zhname'" v-model="card.acct_name" label="持卡人姓名" placeholder="必须和信用卡人名一致,否则无法提现" icon="clear" @click-icon="card.acct_name=''" />
-        <span class="van-field-error" v-show="errors.has('acct_name')">{{ errors.first('acct_name')}}</span>
+    <van-field name='acct_name' v-validate="'required|zhname'" v-model="card.acct_name" label="持卡人姓名" placeholder="必须和信用卡人名一致,否则无法提现" icon="clear" @click-icon="card.acct_name=''" />
+    <span class="van-field-error" v-show="errors.has('acct_name')">{{ errors.first('acct_name')}}</span>
 
-        <van-field name='acct_idcard' v-validate="'required|idcard'" v-model="card.acct_idcard" label="持卡人身份证" placeholder="仅支持18位身份证" icon="clear" @click-icon="card.acct_idcard=''" />
-        <span class="van-field-error" v-show="errors.has('acct_idcard')">{{ errors.first('acct_idcard')}}</span>
+    <van-field name='acct_idcard' v-validate="'required|idcard'" v-model="card.acct_idcard" label="持卡人身份证" placeholder="仅支持18位身份证" icon="clear" @click-icon="card.acct_idcard=''" />
+    <span class="van-field-error" v-show="errors.has('acct_idcard')">{{ errors.first('acct_idcard')}}</span>
 
-        <van-field name='trade_rate' label="费率" :value="card.trade_rate+'‰'" error required readonly="readonly"></van-field>
-        <van-field name='draw_fee' label="手续费" :value="card.draw_fee+'元'" error required readonly="readonly"></van-field>
+    <van-field name='trade_rate' label="费率" :value="card.trade_rate+'‰'" error required readonly="readonly"></van-field>
+    <van-field name='draw_fee' label="手续费" :value="card.draw_fee+'元'" error required readonly="readonly"></van-field>
 
-        <van-button bottom-action class="card-btn" @click="onNextClick">
-            下一步
-        </van-button>
+    <van-button bottom-action class="card-btn" @click="onNextClick">
+      下一步
+    </van-button>
 
-        <input type='hidden' name='version' v-model="card.version" />
-        <input type='hidden' name='cust_id' v-model="card.cust_id" />
-        <input type='hidden' name='ord_id' v-model="card.ord_id" />
-        <input type='hidden' name='sub_mer_id' v-model="card.acct_idcard" />
-        <input type='hidden' name='subject' v-model="card.subject" />
-        <input type='hidden' name='gate_id' v-model="card.gate_id" />
-        <input type='hidden' name='draw_fee' v-model="card.draw_fee" />
-        <input type='hidden' name='check_value' v-model="card.check_value" />
-        <input type='hidden' name='bank_num' v-model="card.bank_num" />
-        <input type='hidden' name='ret_url' v-model="card.ret_url" />
-        <input type='hidden' name='bg_ret_url' v-model="card.bg_ret_url" />
-        <input type='hidden' name='mer_priv' v-model="card.mer_priv" />
-        <input type='hidden' name='extension' v-model="card.extension" />
-        <input type='hidden' name='trade_rate' v-model="card.trade_rate" />
+    <input type='hidden' name='version' v-model="card.version" />
+    <input type='hidden' name='cust_id' v-model="card.cust_id" />
+    <input type='hidden' name='ord_id' v-model="card.ord_id" />
+    <input type='hidden' name='sub_mer_id' v-model="card.acct_idcard" />
+    <input type='hidden' name='subject' v-model="card.subject" />
+    <input type='hidden' name='gate_id' v-model="card.gate_id" />
+    <input type='hidden' name='draw_fee' v-model="card.draw_fee" />
+    <input type='hidden' name='check_value' v-model="card.check_value" />
+    <input type='hidden' name='bank_num' v-model="card.bank_num" />
+    <input type='hidden' name='ret_url' v-model="card.ret_url" />
+    <input type='hidden' name='bg_ret_url' v-model="card.bg_ret_url" />
+    <input type='hidden' name='mer_priv' v-model="card.mer_priv" />
+    <input type='hidden' name='extension' v-model="card.extension" />
+    <input type='hidden' name='trade_rate' v-model="card.trade_rate" />
 
-        <van-popup v-model="pshow" :close-on-click-overlay="false">获取参数失败,请重新扫码</van-popup>
+    <van-popup v-model="pshow" :close-on-click-overlay="false">获取参数失败,请重新扫码</van-popup>
 
-        <van-popup v-model="show" position="bottom">
-            <van-picker title="选择银行名称" :columns="columns" :show-toolbar="true" @cancel="onCancel" @confirm="onConfirm" :visible-item-count="5"></van-picker>
-        </van-popup>
+    <van-popup v-model="show" position="bottom">
+      <van-picker title="选择银行名称" :columns="columns" :show-toolbar="true" @cancel="onCancel" @confirm="onConfirm" :visible-item-count="5"></van-picker>
+    </van-popup>
 
-        <van-dialog v-model="qshow" show-cancel-button :before-close="beforeClose" title="确认信息">
-            <van-field label="金额" v-model="card.trans_amt" readonly="readonly"></van-field>
-            <van-field label="信用卡号" v-model="card.card_id" readonly="readonly"></van-field>
-            <van-field label="预留手机号" v-model="card.mobile_no" readonly="readonly"></van-field>
-            <van-field label="收款银行名称" v-model="bank_name" readonly="readonly"></van-field>
-            <van-field label="收款银行卡号" v-model="card.acct_cardno" readonly="readonly"></van-field>
-            <van-field label="持卡人姓名" v-model="card.acct_name" readonly="readonly"></van-field>
-            <van-field label="持卡人身份证" v-model="card.acct_idcard" readonly="readonly"></van-field>
-            <van-field v-model="cardwarn" error required readonly="readonly"></van-field>
-        </van-dialog>
+    <van-dialog v-model="qshow" show-cancel-button :before-close="beforeClose" title="确认信息">
+      <van-field label="金额" v-model="card.trans_amt" readonly="readonly"></van-field>
+      <van-field label="信用卡号" v-model="card.card_id" readonly="readonly"></van-field>
+      <van-field label="预留手机号" v-model="card.mobile_no" readonly="readonly"></van-field>
+      <van-field label="收款银行名称" v-model="bank_name" readonly="readonly"></van-field>
+      <van-field label="收款银行卡号" v-model="card.acct_cardno" readonly="readonly"></van-field>
+      <van-field label="持卡人姓名" v-model="card.acct_name" readonly="readonly"></van-field>
+      <van-field label="持卡人身份证" v-model="card.acct_idcard" readonly="readonly"></van-field>
+      <van-field v-model="cardwarn" error required readonly="readonly"></van-field>
+    </van-dialog>
 
-    </van-cell-group>
+  </van-cell-group>
 
 </template>
 
@@ -97,8 +97,8 @@ export default {
       pshow: false,
       bank_name: "",
       trade_rate_code: "",
-      UserAccountId: "",
       card: {
+        UserAccountId: "",
         trans_amt: "",
         card_id: "",
         mobile_no: "",
@@ -118,7 +118,7 @@ export default {
         draw_fee: "1.00",
         check_value: "",
 
-        ret_url: "http://collection.hemiv.cn/PayBack",
+        ret_url: "http://collection.hemiv.cn/CodePayBack",
         bg_ret_url: "http://118.190.85.204:7002/api/TradeNotify/TradeNotify",
         mer_priv: "",
         extension: ""
@@ -186,7 +186,8 @@ export default {
         bank_num: this.card.bank_num,
         acct_cardno: this.card.acct_cardno,
         acct_name: this.card.acct_name,
-        acct_idcard: this.card.acct_idcard
+        acct_idcard: this.card.acct_idcard,
+        useraccountid:this.card.UserAccountId
       };
       //记录信用卡缓存
       UtilService.SetLocalStorage("cards", JSON.stringify(cardls));
@@ -296,20 +297,32 @@ export default {
         );
     }
   },
-  created() {
+
+  mounted() {
+    debugger;
+    let cardls = JSON.parse(UtilService.GetLocalStorage("cards"));
     this.card.UserAccountId = this.getQueryString("Id");
     if (
       this.card.UserAccountId == undefined ||
       this.card.UserAccountId == "" ||
       this.card.UserAccountId == null
     ) {
-      this.pshow = true;
+      if (
+        cardls.useraccountid == undefined ||
+        cardls.useraccountid == "" ||
+        cardls.useraccountid == null
+      ) {
+        this.pshow = true;
+      }
+      else{
+        this.card.UserAccountId = cardls.useraccountid;
+        this.getUser();
+      }
+      
     } else {
       this.getUser();
     }
-  },
-  mounted() {
-    let cardls = JSON.parse(UtilService.GetLocalStorage("cards"));
+
     this.card.card_id = cardls.card_id;
     this.card.mobile_no = cardls.mobile_no;
     this.bank_name = cardls.bank_name;
