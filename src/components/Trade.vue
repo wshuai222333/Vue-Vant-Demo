@@ -4,8 +4,11 @@
     <van-notice-bar text="由于交易数据量过大,会定期清除未完成订单数据,请谅解." mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
     <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="immediatecheck">
       <van-row v-for="item in list" :key="item.TradeId" :title="item + ''">
+
         <van-card :title="'订单号:'+item.TradeOrderId" :desc="item.BankName" :price="item.Amount">
-          <div slot="tags" class="tag" v-if="item.IsQrcode==1" ><van-icon name="qr"/>&nbsp;佣金:<span>{{item.Profits}}</span></div>
+          <van-row slot="tags" class="tag" v-if="item.IsQrcode==1">
+            <van-cell :title="'佣金:'+item.Profits" icon="qr" class="tag-cell" />
+          </van-row>
           <div slot="footer">
             <span class="van-row-title" v-if="item.State==0">未完成</span>
             <span class="van-row-title" v-if="item.State==1">已完成</span>
@@ -60,7 +63,7 @@ export default {
               ) {
                 if (response.data.Status == 100) {
                   this.listcount = response.data.Data.TotalItems;
-                  
+
                   response.data.Data.Items.forEach(element => {
                     this.list.push(element);
                   });
@@ -103,9 +106,13 @@ export default {
   /* margin-bottom: 10px;
   background-clip: content-box; */
 }
-.tag{
+.tag {
   font-size: 12px;
 }
 
-
+.tag-cell {
+  background-color: #fafafa;
+  font-size: 12px;
+  padding: 0 0;
+}
 </style>

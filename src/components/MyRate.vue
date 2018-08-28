@@ -29,7 +29,11 @@ export default {
       let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
       if (this.rate > 10) {
         this.$toast("费率不能大于10.00");
-      } else {
+      }
+      else if(this.rate<user.Rate){
+        this.$toast("费率不能小于协议费率");
+      }
+       else {
         this.$validator.validateAll().then(result => {
           if (result) {
             this.$http
