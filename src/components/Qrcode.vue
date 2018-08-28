@@ -10,11 +10,12 @@
 
 <script>
 import QRCode from "qrcodejs2";
+import Service from "./_common";
 
 export default {
   data() {
     return {
-      bannerUrl: "http://www.hemiv.cn/QrcodeCollection?Id=111011"
+      bannerUrl: "http://www.hemiv.cn/QrcodeCollection"
     };
   },
   methods: {
@@ -23,8 +24,8 @@ export default {
     },
     qrcode() {
       let qrcode = new QRCode("qrcode", {
-        width: 300,
-        height: 300, // 高度
+        width: 330,
+        height: 330, // 高度
         text: this.bannerUrl // 二维码内容
         //render: 'table' // 设置渲染方式（有两种方式 table和canvas，默认是canvas）
         // background: '#f0f'
@@ -39,11 +40,9 @@ export default {
       return null;
     }
   },
-  // created(){
-  //   var id =getQueryString(Id); 
-  //   alert(id);
-  // },
   mounted() {
+     let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+     this.bannerUrl+="?Id="+user.UserAccountId;
     this.qrcode();
   }
 };

@@ -101,5 +101,13 @@ export default {
                 return /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/.test(value);
             }
         });
+        Validator.extend('numberaftertwo', {
+            getMessage: function() {
+                return "*小数点后两位数字！例如：输入4.50或5.50"
+            },
+            validate: function(value) {
+                return /^(^[1-9](\d+)?(\.\d{1,2})?$)|(^0$)|(^\d\.\d{1,2}$)$/.test(value);
+            }
+        });
     }
 }

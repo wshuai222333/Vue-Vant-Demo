@@ -27,6 +27,7 @@ import Installment from '@/components/Installment'
 import CardList from '@/components/CardList'
 import AddCard from '@/components/AddCard'
 import QrcodeCollection from '@/components/QrcodeCollection'
+import MyRate from '@/components/MyRate'
 
 import Service from "@/components/_common/index";
 
@@ -177,6 +178,12 @@ const routers = [{
         path: "/qrcodeCollection",
         name: "qrcodeCollection",
         component: QrcodeCollection
+
+    },
+    {
+        path: "/myRate",
+        name: "myRate",
+        component: MyRate
 
     }
 ];

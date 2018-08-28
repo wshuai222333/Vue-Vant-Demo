@@ -45,6 +45,7 @@
     <van-cell-group class="user-group">
       <van-cell icon="records" title="交易" is-link to="Trade" />
       <van-cell icon="card" title="银行卡" is-link to="CardList" />
+      <van-cell icon="discount" title="我的费率" is-link to="MyRate" />
     </van-cell-group>
     <van-cell-group class="user-group">
 
@@ -99,8 +100,8 @@ export default {
       let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
       this.$http
         .post(
-           "/api/User/UserLogin",
-           Service.Encrypt.DataEncryption({
+          "/api/User/UserLogin",
+          Service.Encrypt.DataEncryption({
             UserAccountId: user.UserAccountId
           })
         )
@@ -139,7 +140,6 @@ export default {
     let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
     this.username = user.UserName;
     this.getUser();
-    
   },
   computed: {
     formateintegral: function() {
@@ -161,16 +161,16 @@ export default {
     },
     formatemaxintegral: function() {
       if (this.memberlevel == 0) {
-        return "还需"+(100 - this.integral)+"可升级";
+        return "还需" + (100 - this.integral) + "可升级";
         // return this.integral+"可升级";
       } else if (this.memberlevel == 1) {
-        return "还需"+(500 - this.integral)+"可升级";
+        return "还需" + (500 - this.integral) + "可升级";
       } else if (this.memberlevel == 2) {
-        return "还需"+(1000 - this.integral)+"可升级";
+        return "还需" + (1000 - this.integral) + "可升级";
       } else if (this.memberlevel == 3) {
-        return "还需"+(2000 - this.integral)+"可升级";
+        return "还需" + (2000 - this.integral) + "可升级";
       } else if (this.memberlevel == 4) {
-       return "还需"+(5000 - this.integral)+"可升级";
+        return "还需" + (5000 - this.integral) + "可升级";
       } else if (this.memberlevel == 5) {
         return "还需0可升级";
       } else {
@@ -183,8 +183,7 @@ export default {
 
 <style lang="less">
 .user {
-  &-icon{
-    
+  &-icon {
   }
   &-tag {
     margin-left: 20%;

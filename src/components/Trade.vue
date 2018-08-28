@@ -5,6 +5,7 @@
     <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="immediatecheck">
       <van-row v-for="item in list" :key="item.TradeId" :title="item + ''">
         <van-card :title="'订单号:'+item.TradeOrderId" :desc="item.BankName" :price="item.Amount">
+          <div slot="tags" class="tag" v-if="item.IsQrcode==1" ><van-icon name="qr"/>&nbsp;佣金:<span>{{item.Profits}}</span></div>
           <div slot="footer">
             <span class="van-row-title" v-if="item.State==0">未完成</span>
             <span class="van-row-title" v-if="item.State==1">已完成</span>
@@ -59,7 +60,7 @@ export default {
               ) {
                 if (response.data.Status == 100) {
                   this.listcount = response.data.Data.TotalItems;
-                  debugger;
+                  
                   response.data.Data.Items.forEach(element => {
                     this.list.push(element);
                   });
@@ -102,4 +103,9 @@ export default {
   /* margin-bottom: 10px;
   background-clip: content-box; */
 }
+.tag{
+  font-size: 12px;
+}
+
+
 </style>
