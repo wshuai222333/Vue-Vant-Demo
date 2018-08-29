@@ -36,7 +36,7 @@ export default {
       this.btnloding = true;
       let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
       if (this.rate > 10) {
-        this.$toast("费率不能大于10.00");
+        this.$toast("费率不能大于10");
       } else if (this.rate < user.Rate) {
         this.$toast("费率不能小于协议费率");
       } else {
@@ -106,7 +106,7 @@ export default {
 .item-content {
   font-size: 13px;
   line-height: 1.5;
-  color: red;
+  color: #666;
 }
 .van-icon-question {
   color: #38f;
