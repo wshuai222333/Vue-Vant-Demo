@@ -16,11 +16,13 @@
                             <img src="../assets/images/收款.svg" />
                         </van-col>
                     </router-link>
-                    <router-link to="Qrcode">
+                    <!-- <router-link to="Qrcode"> -->
+                        <div @click="qcodeclick">
                         <van-col class="home-van-cell-group-cell-item" span="6">
                             <img src="../assets/images/二维码.svg" />
                         </van-col>
-                    </router-link>
+                        </div>
+                    <!-- </router-link> -->
                     <router-link to="Forward">
                         <van-col class="home-van-cell-group-cell-item" span="6">
                             <img src="../assets/images/优惠.svg" />
@@ -170,6 +172,16 @@ export default {
           this.finished = true;
         }
       }, 1000);
+    },
+    qcodeclick(){
+        debugger;
+        let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+        if(user.IsQrcode=="1")  {
+           this.$router.push("Qrcode");
+        }
+        else{
+          this.$toast("暂无权限");
+        }
     }
   }
 };

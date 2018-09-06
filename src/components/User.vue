@@ -45,7 +45,7 @@
     <van-cell-group class="user-group">
       <van-cell icon="records" title="交易" is-link to="Trade" />
       <van-cell icon="card" title="银行卡" is-link to="CardList" />
-      <van-cell icon="discount" title="我的费率" is-link to="MyRate" />
+      <van-cell icon="discount" title="我的费率" is-link to="MyRate" v-if="isqrcode==1"/>
     <!-- </van-cell-group>
     <van-cell-group class="user-group">
 
@@ -74,7 +74,8 @@ export default {
       memberlevel: "",
       percentage: 0,
       integral: 0,
-      integraltxt: ""
+      integraltxt: "",
+      isqrcode:0
     };
   },
   components: {
@@ -119,9 +120,10 @@ export default {
                   Service.Enum.CGT_ALI_USER,
                   JSON.stringify(response.data.Data)
                 );
-                this.memberlevel = user.Memberlevel;
-                this.integral = user.Integral;
-                this.integraltxt = "" + user.Integral + "";
+                this.memberlevel = response.data.Data.Memberlevel;
+                this.integral = response.data.Data.Integral;
+                this.integraltxt = "" + response.data.Data.Integral + "";
+                this.isqrcode = response.data.Data.IsQrcode;
               } else {
                 this.$toast(response.data.Message);
               }

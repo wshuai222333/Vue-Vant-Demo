@@ -7,8 +7,9 @@
     <!-- <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="immediatecheck">
             <van-row v-for="item in list" :key="item.TradeId" :title="item + ''"> -->
     <van-list v-model="loading" :finished="finished" @load="onLoad">
-      <van-row class="van-rowcss" v-for="item in list" :key="item" :title="item + ''">
-        <van-cell-swipe :right-width="65" :on-close="onClose(item)" class="van-cell-swipecss">
+      <van-row class="van-rowcss" v-for="item in list" :key="item.BankCardId" :title="item + ''">
+        <van-swipe-cell :right-width="65" :on-close="onClose(item)" class="van-cell-swipecss">
+          
           <div class="card">
             <span class="card-forecast" v-text="item.BankName"></span>
             <span class="card-forecast-type" v-if="item.Type==0">信用卡</span>
@@ -18,7 +19,7 @@
             </span>
           </div>
           <span slot="right">删除</span>
-        </van-cell-swipe>
+        </van-swipe-cell>
 
       </van-row>
     </van-list>
@@ -56,12 +57,12 @@ export default {
       }
     },
     onLoad() {
-      // setTimeout(() => {
+      setTimeout(() => {
       this.getBankCardList();
       this.loading = false;
       this.finished = true;
-      // }
-      // }, 500);
+      
+      }, 500);
     },
     getBankCardList() {
       let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
@@ -80,8 +81,10 @@ export default {
               response.data != undefined
             ) {
               if (response.data.Status == 100) {
+               
                 this.listcount = response.data.Data.length;
                 response.data.Data.forEach(element => {
+                 
                   this.list.push(element);
                 });
               } else {
@@ -213,7 +216,7 @@ export default {
   padding-top: 3%;
   padding-left: 10%;
 }
-.van-cell-swipe {
+.van-swipe-cell {
   &__left,
   &__right {
     color: #ffffff;

@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.push("User");
+      this.$router.push("Home");
     },
     qrcode() {
       let qrcode = new QRCode("qrcode", {
