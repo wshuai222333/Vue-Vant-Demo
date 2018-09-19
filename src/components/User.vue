@@ -45,7 +45,7 @@
     <van-cell-group class="user-group">
       <van-cell icon="records" title="交易" is-link to="Trade" />
       <van-cell icon="card" title="银行卡" is-link to="CardList" />
-      <van-cell icon="discount" title="我的费率" is-link to="MyRate" v-if="isqrcode==1"/>
+      <van-cell icon="discount" title="我的二维码" is-link to="MyRate" v-if="isqrcode==1"/>
     <!-- </van-cell-group>
     <van-cell-group class="user-group">
 

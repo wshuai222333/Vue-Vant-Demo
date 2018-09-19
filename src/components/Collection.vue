@@ -258,7 +258,9 @@ export default {
             TradeRate: this.card.trade_rate,
             TradeRateCode: this.trade_rate_code,
             UserAccountId: user.UserAccountId,
-            Rate: this.card.trade_rate
+            Rate: this.card.trade_rate,
+            DrawFee: this.card.draw_fee,
+            UserDrawFee: this.card.draw_fee
           })
         )
         .then(

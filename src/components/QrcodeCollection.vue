@@ -1,6 +1,6 @@
 <template>
   <van-cell-group :border="show">
-    <van-notice-bar text="晚上21点后可能延迟到账，请耐心等待。" mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" />
+    <!-- <van-notice-bar text="晚上21点后可能延迟到账，请耐心等待。" mode="closeable" left-icon="https://img.yzcdn.cn/public_files/2017/8/10/6af5b7168eed548100d9041f07b7c616.png" /> -->
     <van-field name='trans_amt' v-validate="'required|digital'" v-model="card.trans_amt" label="金额" icon="clear" placeholder="请输入300-20000的金额" @click-icon="card.trans_amt=''"></van-field>
     <span class="van-field-error" v-show="errors.has('trans_amt')">{{ errors.first('trans_amt')}}</span>
 
@@ -116,6 +116,7 @@ export default {
         subject: "机票旅行收款",
         gate_id: "1010",
         draw_fee: "1.00",
+        draw_fee_user: "1.00",
         check_value: "",
 
         ret_url: "http://collection.hemiv.cn/CodePayBack",
@@ -187,7 +188,7 @@ export default {
         acct_cardno: this.card.acct_cardno,
         acct_name: this.card.acct_name,
         acct_idcard: this.card.acct_idcard,
-        useraccountid:this.card.UserAccountId
+        useraccountid: this.card.UserAccountId
       };
       //记录信用卡缓存
       UtilService.SetLocalStorage("cards", JSON.stringify(cardls));
@@ -210,7 +211,9 @@ export default {
             TradeRateCode: this.trade_rate_code,
             UserAccountId: this.card.UserAccountId,
             IsQrcode: 1,
-            Rate: this.card.rate
+            Rate: this.card.rate,
+            DrawFee: this.card.draw_fee_user,
+            UserDrawFee: this.card.draw_fee
           })
         )
         .then(
@@ -280,9 +283,12 @@ export default {
               response.data != undefined
             ) {
               if (response.data.Status == 100) {
+                debugger;
                 response.data.Data.userPwd = null;
                 this.card.trade_rate = response.data.Data.UserRate;
                 this.card.rate = response.data.Data.Rate;
+                this.card.draw_fee = Number(response.data.Data.UserDrawFee).toFixed(2);
+                this.card.draw_fee_user = response.data.Data.DrawFee;
               } else {
                 this.pshow = true;
               }
@@ -313,12 +319,10 @@ export default {
         cardls.useraccountid == null
       ) {
         this.pshow = true;
-      }
-      else{
+      } else {
         this.card.UserAccountId = cardls.useraccountid;
         this.getUser();
       }
-      
     } else {
       this.getUser();
     }

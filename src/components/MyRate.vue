@@ -1,16 +1,20 @@
 <template>
   <van-cell-group :border="show">
-    <van-nav-bar title="我的费率" left-arrow @click-left="onClickLeft"></van-nav-bar>
-     <van-collapse v-model="activeNames">
+    <van-nav-bar title="我的二维码" left-arrow @click-left="onClickLeft"></van-nav-bar>
+    <van-collapse v-model="activeNames">
       <van-collapse-item name="1">
-        <div slot="title">费率提示
+        <div slot="title">提示
           <van-icon name="question" />
         </div>
-        <span class="item-content">单位为千分之一(‰),输入小数点后两位以内数字,例如：输入4或4.5或4.55,费率不能小于平台协议费率或大于10‰费率</span>
+        <span class="item-content">费率：单位为千分之一(‰),输入小数点后两位以内数字,例如：输入4或4.5或4.55,费率不能小于平台协议费率或大于10‰费率</span>
+        <br/>
+        <span class="item-content">手续费：单位为元,输入小数点后两位以内数字,例如：输入4或4.5或4.55</span>
       </van-collapse-item>
     </van-collapse>
     <van-field name='rate' v-validate="'required|numberaftertwo'" v-model="rate" label="二维码费率" placeholder="请输入小数点后两位以内数字" />
     <span class="van-field-error" v-show="errors.has('rate')">{{ errors.first('rate')}}</span>
+    <van-field name='drawfee' v-validate="'required|numberaftertwo'" v-model="drawfee" label="二维码手续费" placeholder="请输入小数点后两位以内数字" />
+    <span class="van-field-error" v-show="errors.has('drawfee')">{{ errors.first('drawfee')}}</span>
     <van-button bottom-action class="card-btn" :loading="btnloding" @click="onSubmit">
       提交
     </van-button>
@@ -24,8 +28,9 @@ export default {
     return {
       show: false,
       btnloding: false,
-      rate: "5.00",
-      activeNames: ['1'],
+      rate: "5",
+      drawfee: "1",
+      activeNames: ["0"]
     };
   },
   methods: {
@@ -39,6 +44,8 @@ export default {
         this.$toast("费率不能大于10");
       } else if (this.rate < user.Rate) {
         this.$toast("费率不能小于协议费率");
+      } else if (this.drawfee < user.DrawFee) {
+        this.$toast("手续费不能小于协议手续费");
       } else {
         this.$validator.validateAll().then(result => {
           if (result) {
@@ -47,7 +54,8 @@ export default {
                 "/api/User/ModifyRate",
                 Service.Encrypt.DataEncryption({
                   UserAccountId: user.UserAccountId,
-                  UserRate: this.rate
+                  UserRate: this.rate,
+                  UserDrawFee:this.drawfee
                 })
               )
               .then(
@@ -83,7 +91,9 @@ export default {
   },
   mounted() {
     let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
+    
     this.rate = user.UserRate;
+    this.drawfee = user.UserDrawFee;
   }
 };
 </script>
