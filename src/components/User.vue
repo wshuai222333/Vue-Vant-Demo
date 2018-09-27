@@ -185,8 +185,6 @@ export default {
 
 <style lang="less">
 .user {
-  &-icon {
-  }
   &-tag {
     margin-left: 20%;
   }
