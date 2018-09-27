@@ -1,6 +1,6 @@
 <template>
     <van-cell-group>
-        <form action='http://pay.dingshuapay.com/netrecv/merchant/unionPay' method='post' ref="merRecvRequest" name='merRecvRequest' target='_self'>
+        <form id="merRecvRequest" action='http://pay.dingshuapay.com/netrecv/merchant/unionPay' method='post' ref="merRecvRequest" name='merRecvRequest' target='_self'>
             <input type='hidden' name='trans_amt' v-model="trans_amt" />
             <input type='hidden' name='card_id' v-model="card_id" />
             <input type='hidden' name='mobile_no' v-model="mobile_no" />
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -86,7 +86,7 @@ export default {
     ...mapGetters(["cards"])
   },
   mounted() {
-    
+    debugger;
     this.$refs.merRecvRequest.submit();
   }
 };

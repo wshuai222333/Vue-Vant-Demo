@@ -16,7 +16,7 @@ export default {
             if (new RegExp("(" + i + ")").test(format))
                 format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? n : ("00" + n).substr(("" + n).length));
         }
-        debugger;
+
         return format;
     }
 }

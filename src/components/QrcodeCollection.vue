@@ -305,7 +305,7 @@ export default {
   },
 
   mounted() {
-    debugger;
+    
     let cardls = JSON.parse(UtilService.GetLocalStorage("cards"));
     this.card.UserAccountId = this.getQueryString("Id");
     if (
