@@ -44,7 +44,8 @@ export default {
                 //     Toast("请先登录平台");
                 //     router.push("Login");
                 // }
-                if (!IsLogin && to.name !== "registered" && to.name !== "home" && to.name !== "qrcodeCollection") {
+                // if (!IsLogin && to.name !== "registered" && to.name !== "home" && to.name !== "qrcodeCollection") {
+                if (!IsLogin && to.name !== "registered" && to.name !== "qrcodeCollection") {
                     router.push("Login");
                 }
             }

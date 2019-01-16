@@ -5,10 +5,14 @@
     </div>
     <div class="login-form">
       <div class="login-inp">
-        <label>用户名</label><input type="text" v-model="username" placeholder="用户名/手机号"></div>
-        
+        <label>用户名</label>
+        <input type="text" v-model="username" placeholder="用户名/手机号">
+      </div>
+
       <div class="login-inp">
-        <label>密码</label><input type="password" v-model="userpwd" placeholder="密码"></div>
+        <label>密码</label>
+        <input type="password" v-model="userpwd" placeholder="密码">
+      </div>
       <div class="login-inp">
         <a @click="OnLogin">立即登录</a>
       </div>
@@ -16,6 +20,9 @@
     <div class="login-txt">
       <a @click="OnClickRed">立即注册</a>
       <!-- <a href="#">忘记密码？</a> -->
+    </div>
+    <div class="login-beian">
+      COPYRIGHT © 2017-2019<a href="http://www.miitbeian.gov.cn">沪ICP备17010847号-1</a>
     </div>
   </div>
 </template>
@@ -189,4 +196,13 @@ h6 {
   color: #fff;
   padding: 0 5px;
 }
+.login-beian {
+  height: 100px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  font-size: 12px;
+}
+
 </style>
