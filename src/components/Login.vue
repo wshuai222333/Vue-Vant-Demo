@@ -17,10 +17,10 @@
         <a @click="OnLogin">立即登录</a>
       </div>
     </div>
-    <div class="login-txt">
+    <!-- <div class="login-txt">
       <a @click="OnClickRed">立即注册</a>
-      <!-- <a href="#">忘记密码？</a> -->
-    </div>
+      <a href="#">忘记密码？</a> 
+    </div> -->
     <div class="login-beian">
       COPYRIGHT © 2017-2019<a href="http://www.miitbeian.gov.cn">沪ICP备17010847号-1</a>
     </div>
