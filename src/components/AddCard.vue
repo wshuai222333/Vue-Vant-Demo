@@ -3,12 +3,10 @@
     <van-nav-bar title="添加银行卡" left-arrow @click-left="onClickLeft"></van-nav-bar>
     <!-- <van-tabs v-model="active"> -->
     <!-- <van-tab title="信用卡"> -->
-
     <p></p>
 
     <van-radio-group v-model="radio">
       <van-row>
-
         <van-col class="van-col-radio" offset="2" span="10">
           <van-radio name="0">信用卡</van-radio>
         </van-col>
@@ -18,26 +16,67 @@
       </van-row>
     </van-radio-group>
 
-    <van-field name='card_id' v-validate="'required|digital'" v-model="card.card_id" label="银行卡号" placeholder="请输入银行卡卡号" icon="clear" @click-icon="card.card_id=''" />
+    <van-field
+      name="card_id"
+      v-validate="'required|digital'"
+      v-model="card.card_id"
+      label="银行卡号"
+      placeholder="请输入银行卡卡号"
+      icon="clear"
+      @click-icon="card.card_id=''"
+    />
     <span class="van-field-error" v-show="errors.has('card_id')">{{ errors.first('card_id')}}</span>
 
-    <van-field name='bank_name' v-validate="'required'" v-model="card.bank_name" label="银行名称" placeholder="选择银行" readonly="readonly" @click="onSelectClick()">
-      <van-icon slot="icon" name="add-o" @click="onSelectClick()" />
+    <van-field
+      name="bank_name"
+      v-validate="'required'"
+      v-model="card.bank_name"
+      label="银行名称"
+      placeholder="选择银行"
+      readonly="readonly"
+      @click="onSelectClick()"
+    >
+      <van-icon slot="icon" name="add-o" @click="onSelectClick()"/>
     </van-field>
     <span class="van-field-error" v-show="errors.has('bank_name')">{{ errors.first('bank_name')}}</span>
 
-    <van-field name='mobile_no' v-validate="'required|phone'" v-model="card.mobile_no" label="预留手机号" placeholder="请输入银行预留手机号" icon="clear" @click-icon="card.mobile_no=''" />
+    <van-field
+      name="mobile_no"
+      v-validate="'required|phone'"
+      v-model="card.mobile_no"
+      label="预留手机号"
+      placeholder="请输入银行预留手机号"
+      icon="clear"
+      @click-icon="card.mobile_no=''"
+    />
     <span class="van-field-error" v-show="errors.has('mobile_no')">{{ errors.first('mobile_no')}}</span>
 
-    <van-field name='acct_name' v-validate="'required|zhname'" v-model="card.acct_name" label="持卡人姓名" placeholder="请输入持卡人姓名" icon="clear" @click-icon="card.acct_name=''" />
+    <van-field
+      name="acct_name"
+      v-validate="'required|zhname'"
+      v-model="card.acct_name"
+      label="持卡人姓名"
+      placeholder="请输入持卡人姓名"
+      icon="clear"
+      @click-icon="card.acct_name=''"
+    />
     <span class="van-field-error" v-show="errors.has('acct_name')">{{ errors.first('acct_name')}}</span>
 
-    <van-field name='acct_idcard' v-validate="'required|idcard'" v-model="card.acct_idcard" label="持卡人身份证" placeholder="仅支持18位身份证" icon="clear" @click-icon="card.acct_idcard=''" />
-    <span class="van-field-error" v-show="errors.has('acct_idcard')">{{ errors.first('acct_idcard')}}</span>
+    <van-field
+      name="acct_idcard"
+      v-validate="'required|idcard'"
+      v-model="card.acct_idcard"
+      label="持卡人身份证"
+      placeholder="仅支持18位身份证"
+      icon="clear"
+      @click-icon="card.acct_idcard=''"
+    />
+    <span
+      class="van-field-error"
+      v-show="errors.has('acct_idcard')"
+    >{{ errors.first('acct_idcard')}}</span>
 
-    <van-button bottom-action class="card-btn" @click="onClick">
-      保存
-    </van-button>
+    <van-button bottom-action class="card-btn" @click="onClick">保存</van-button>
     <!-- </van-tab> -->
     <!-- <van-tab title="储蓄卡">
        <van-field name='card_id' v-validate="'required|digital'" v-model="xcard.card_id" label="信用卡卡号" placeholder="请输入银行卡卡号" icon="clear" @click-icon="card.card_id=''" />
@@ -52,10 +91,16 @@
         <van-button bottom-action class="card-btn" @click="onClick" >
           保存
         </van-button>
-      </van-tab> -->
+    </van-tab>-->
     <!-- </van-tabs> -->
     <van-popup v-model="show" position="bottom" cancel-text="取消">
-      <van-picker :columns="columns" :show-toolbar="true" @cancel="onCancel" @confirm="onConfirm" :visible-item-count="5"></van-picker>
+      <van-picker
+        :columns="columns"
+        :show-toolbar="true"
+        @cancel="onCancel"
+        @confirm="onConfirm"
+        :visible-item-count="5"
+      ></van-picker>
     </van-popup>
 
     <van-dialog v-model="dshow" show-cancel-button :before-close="beforeClose" title="确认信息">
@@ -68,7 +113,6 @@
       <van-field v-model="cardwarn" error required readonly="readonly"></van-field>
     </van-dialog>
   </van-cell-group>
-
 </template>
 
 
@@ -138,7 +182,6 @@ export default {
           this.$toast("输入为空或格式错误！");
         }
       });
-      
     },
     onSelectClick() {
       this.show = true;
@@ -151,7 +194,6 @@ export default {
       }
     },
     AddBankCard() {
-      
       //获取缓存用户信息
       let user = Service.Util.GetLocalStorage(Service.Enum.CGT_ALI_USER);
       this.$http
@@ -165,7 +207,7 @@ export default {
             Phone: this.card.mobile_no,
             AcctName: this.card.acct_name,
             Type: this.radio,
-            AcctIdCard : this.card.acct_idcard
+            AcctIdCard: this.card.acct_idcard
           })
         )
         .then(
@@ -191,10 +233,9 @@ export default {
           }
         );
     }
-    
   },
-  computed:{
-    formatter:function(){
+  computed: {
+    formatter: function() {
       let msg = "";
       switch (parseInt(this.radio)) {
         case 1:
@@ -207,7 +248,7 @@ export default {
           msg = "未知类型";
           break;
       }
-      return msg
+      return msg;
     }
   }
 };

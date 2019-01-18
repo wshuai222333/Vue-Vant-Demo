@@ -140,7 +140,7 @@ export default {
             Dialog.confirm({
               message: "确定删除吗？"
             }).then(() => {
-              debugger;
+              
               this.$http
                 .post(
                   "/api/Trade/DeleteBankCard",
@@ -160,6 +160,7 @@ export default {
                         response.data.Data > 0
                       ) {
                         this.$toast("删除成功");
+                         this.getBankCardList();
                       } else {
                         this.$toast(response.data.Message);
                       }
@@ -177,6 +178,7 @@ export default {
             break;
         }
       };
+     
     }
   }
 };
