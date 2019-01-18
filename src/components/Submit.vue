@@ -1,34 +1,42 @@
 <template>
-    <van-cell-group>
-        <form id="merRecvRequest" action='http://pay.dingshuapay.com/netrecv/merchant/unionPay' method='post' ref="merRecvRequest" name='merRecvRequest' target='_self'>
-            <input type='hidden' name='trans_amt' v-model="trans_amt" />
-            <input type='hidden' name='card_id' v-model="card_id" />
-            <input type='hidden' name='mobile_no' v-model="mobile_no" />
-            <input type='hidden' name='acct_cardno' v-model="acct_cardno" />
-            <input type='hidden' name='acct_name' v-model="acct_name" />
-            <input type='hidden' name='acct_idcard' v-model="acct_idcard" />
-            <input type='hidden' name='trade_rate' v-model="trade_rate" />
-
-            <input type='hidden' name='version' v-model="version" />
-            <input type='hidden' name='cust_id' v-model="cust_id" />
-            <input type='hidden' name='ord_id' v-model="ord_id" />
-            <input type='hidden' name='sub_mer_id' v-model="sub_mer_id" />
-            <input type='hidden' name='subject' v-model="subject" />
-            <input type='hidden' name='gate_id' v-model="gate_id" />
-            <input type='hidden' name='draw_fee' v-model="draw_fee" />
-            <input type='hidden' name='check_value' v-model="check_value" />
-            <input type='hidden' name='bank_num' v-model="bank_num" />
-
-            <input type='hidden' name='ret_url' v-model="ret_url" />
-            <input type='hidden' name='bg_ret_url' v-model="bg_ret_url" />
-            <input type='hidden' name='mer_priv' v-model="mer_priv" />
-            <input type='hidden' name='extension' v-model="extension" />
-        </form>
-    </van-cell-group>
+  <van-cell-group>
+    <form
+      id="merRecvRequest"
+      action="http://pay.dingshuapay.com/netrecv/merchant/unionPay"
+      method="post"
+      ref="merRecvRequest"
+      name="merRecvRequest"
+      target="_self"
+    >
+      <input type="hidden" name="trans_amt" v-model="trans_amt">
+      <input type="hidden" name="card_id" v-model="card_id">
+      <input type="hidden" name="mobile_no" v-model="mobile_no">
+      <input type="hidden" name="acct_cardno" v-model="acct_cardno">
+      <input type="hidden" name="acct_name" v-model="acct_name">
+      <input type="hidden" name="acct_idcard" v-model="acct_idcard">
+      <input type="hidden" name="trade_rate" v-model="trade_rate">
+      
+      <input type="hidden" name="version" v-model="version">
+      <input type="hidden" name="cust_id" v-model="cust_id">
+      <input type="hidden" name="ord_id" v-model="ord_id">
+      <input type="hidden" name="sub_mer_id" v-model="sub_mer_id">
+      <input type="hidden" name="subject" v-model="subject">
+      <input type="hidden" name="gate_id" v-model="gate_id">
+      <input type="hidden" name="draw_fee" v-model="draw_fee">
+      <input type="hidden" name="check_value" v-model="check_value">
+      <input type="hidden" name="bank_num" v-model="bank_num">
+      
+      <input type="hidden" name="ret_url" v-model="ret_url">
+      <input type="hidden" name="bg_ret_url" v-model="bg_ret_url">
+      <input type="hidden" name="mer_priv" v-model="mer_priv">
+      <input type="hidden" name="extension" v-model="extension">
+    </form>
+  </van-cell-group>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -56,9 +64,8 @@ export default {
       extension: ""
     };
   },
-
   created() {
-    debugger;
+    
     this.trans_amt = Number(this.cards.trans_amt).toFixed(2);
     this.card_id = this.cards.card_id;
     this.mobile_no = this.cards.mobile_no;
@@ -86,8 +93,7 @@ export default {
     ...mapGetters(["cards"])
   },
   mounted() {
-    debugger;
     this.$refs.merRecvRequest.submit();
-  }
-};
+  },
+ };
 </script>

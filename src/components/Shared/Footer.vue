@@ -16,7 +16,6 @@ export default {
   },
   methods: {},
   created() {
-    
     let router = this.$route.path;
     //判断当前路由选定标签
     if (router.indexOf("User") > -1) {
